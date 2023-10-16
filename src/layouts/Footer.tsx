@@ -4,7 +4,7 @@ import React from 'react';
 const Container = styled.div`
   width: 100%;
   height: 150px;
-  border: 1px solid;
+  background-color: #0b0b0b;
 `;
 
 const Footer = () => {

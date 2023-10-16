@@ -7,7 +7,7 @@ const Container = styled.div`
   justify-content: space-between;
   width: 100%;
   height: 100px;
-  border: 1px solid;
+  background-color: #0e1e5b;
 `;
 
 const Header = () => {

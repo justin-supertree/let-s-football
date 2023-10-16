@@ -9,7 +9,13 @@ const base = css`
     margin: 0;
     font-family: 'Manrope', new-hero, -apple-system, BlinkMacSystemFont,
       Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-      Helvetica Neue, sans-serif;
+      Novarese, Helvetica Neue, sans-serif;
+  }
+
+  @font-face {
+    font-family: 'Novarese';
+    src: url('/fonts/ITC Novarese Bold.otf') format('otf'),
+      url('/fonts/ITC Novarese Bold.otf') format('otf');
   }
 
   a {
