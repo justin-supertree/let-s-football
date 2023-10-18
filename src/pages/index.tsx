@@ -27,8 +27,9 @@ const Home: NextPageWithLayout = () => {
   return (
     <Container>
       <TitleBlock>
-        <Title1>Welcome to Custom</Title1>
-        <p>CHAMPIONS LEAGUE</p>
+        {/* <Title1>Welcome to Custom</Title1>
+        <p>CHAMPIONS LEAGUE</p> */}
+        <Title1>Main</Title1>
       </TitleBlock>
     </Container>
   );

@@ -25,7 +25,7 @@ const Layout = ({ children }: Props) => {
   return (
     <>
       <Head>
-        <title>FootBall Pro for all people.</title>
+        <title>MaestroPitch : FootBall Pro for all people.</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/chamcham.svg" />
       </Head>
