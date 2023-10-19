@@ -1,14 +1,14 @@
-import { Global } from "@emotion/react";
-import { ChakraProvider } from "@chakra-ui/react";
-import { Provider } from "react-redux";
-import { ToastContainer } from "react-toastify";
+import { Global } from '@emotion/react';
+import { ChakraProvider } from '@chakra-ui/react';
+import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
-import { store } from "@/store";
-import styles from "@/styles";
+import { store } from '@/store';
+import styles from '@/styles';
 
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css';
 
 const AppProvider = ({ children }: { children: ReactNode }) => {
   return (

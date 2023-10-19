@@ -1,6 +1,7 @@
 import type { DefaultSession } from 'next-auth';
 import type { PartnerInfo } from '@/types/partner';
 import { Overwrite } from '@/types/utility';
+import { UserInfo } from '@/types/user';
 
 declare module 'next-auth' {
   /**
@@ -9,11 +10,15 @@ declare module 'next-auth' {
   interface Session extends Overwrite<DefaultSession['user'], PartnerInfo> {
     accessToken?: string;
     refreshToken?: string;
+    userInfo: UserInfo;
+    isFirst?: boolean;
   }
 
   interface User extends Overwrite<DefaultSession['user'], PartnerInfo> {
     accessToken?: string;
     refreshToken?: string;
+    userInfo: UserInfo;
+    isFirst?: boolean;
   }
 }
 declare module 'next-auth/jwt' {
@@ -21,5 +26,7 @@ declare module 'next-auth/jwt' {
   interface JWT extends Overwrite<DefaultSession['user'], PartnerInfo> {
     accessToken?: string;
     refreshToken?: string;
+    userInfo: UserInfo;
+    isFirst?: boolean;
   }
 }
