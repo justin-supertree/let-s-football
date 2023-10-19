@@ -17,6 +17,8 @@ export default NextAuth({
       },
 
       async authorize(credentials) {
+        console.log('credentials >', credentials);
+
         if (credentials?.code) {
           console.log('credentials >', credentials);
           try {
@@ -28,8 +30,6 @@ export default NextAuth({
                 accessToken: res.accessToken,
                 refreshToken: res.refreshToken,
                 id: userInfo.id.toString(),
-                email: userInfo.email,
-                userInfo,
               };
             }
           } catch (e) {

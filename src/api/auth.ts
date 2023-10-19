@@ -14,9 +14,9 @@ export const kakaoUserLogin = async ({
   code,
 }: RequestSnsLogin): Promise<snsLoginData | void> => {
   try {
-    const { data } = await api.post<ResponseData<snsLoginData>>('/auth/kakao', {
-      code,
-    });
+    const { data } = await api.get<ResponseData<snsLoginData>>(
+      `/auth/kakao/redirect?code=${code}`,
+    );
 
     if (!data.result && data.message) {
       throw new ResponseError(data.message, '10');
@@ -37,8 +37,7 @@ export const googleUserLogin = async ({
 }: RequestSnsLogin): Promise<snsLoginData | void> => {
   try {
     const { data } = await api.post<ResponseData<snsLoginData>>(
-      '/v1/auth/google',
-      { code },
+      `/v1/auth/google/redirect?code=${code}`,
     );
 
     if (!data.result && data.message) {
