@@ -18,9 +18,10 @@ export default NextAuth({
 
       async authorize(credentials) {
         if (credentials?.code) {
-          console.log('credentials >', credentials);
+          console.log('credentials in api >', credentials);
           try {
             const res = await kakaoUserLogin({ code: credentials.code });
+            console.log('res >', res);
 
             if (res && res.user) {
               const { user: userInfo } = res;

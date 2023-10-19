@@ -62,6 +62,7 @@ const Desc = styled.p`
 
 const ImageBlock = styled.div`
   position: relative;
+  width: 100%;
   height: 111.875px;
 
   & > img {
@@ -82,6 +83,7 @@ const ModalButton = styled(Button)<{
   isRight?: boolean;
   buttonType: boolean;
 }>`
+  position: relative;
   width: 100%;
   padding: 16px 0px;
   font-family: Noto Sans KR;
@@ -111,9 +113,9 @@ const RedirectModal = ({ isOpen, buttonType, handleOpenModal }: Props) => {
     <Modal isOpen={isOpen} handleOpenModal={() => isOpen && handleOpenModal}>
       <Container>
         <TitleBlock>
-          <Title>text[language].title</Title>
+          <Title>로그인 실패</Title>
         </TitleBlock>
-        <Desc>text[language].desc</Desc>
+        {/* <Desc>text[language].desc</Desc> */}
 
         <ImageBlock>
           <Image src="main-content.png" alt="main-content" />
@@ -128,7 +130,7 @@ const RedirectModal = ({ isOpen, buttonType, handleOpenModal }: Props) => {
               variant="ghost"
               onClick={handleOpenModal}
             >
-              text[language].confirm
+              Go Back Home
             </ModalButton>
           </Link>
         </ButtonBox>

@@ -45,6 +45,8 @@ const KakaoCallbackPage: NextPage = () => {
           code,
           redirect: false,
         });
+        console.log('res >', res);
+
         if (res && !res.ok) {
           setIsError(true);
           return;

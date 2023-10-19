@@ -4,7 +4,9 @@ import { Button } from '@chakra-ui/react';
 import { AnimatePresence } from 'framer-motion';
 
 import LoginModal from '@/components/Modal/LoginModal';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import RedirectModal from '@/components/Modal/RedirectModal';
 
 const Container = styled.div`
   display: flex;
@@ -95,6 +97,8 @@ const LoginButton = styled(Button)``;
 
 const Header = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isRedirectModalOpen, setIsRedirectModalOpen] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const { data: session } = useSession();
 
@@ -102,9 +106,16 @@ const Header = () => {
     setIsLoginOpen(!isLoginOpen);
   };
 
+  const router = useRouter();
+  const { code } = router.query;
+  const { status } = useSession();
+
   useEffect(() => {
-    console.log('session >', session);
-  }, [session]);
+    console.log('code >', code);
+    if (code) {
+      router.push(`/callback/kakao?code=${code}`);
+    }
+  }, [code, router]);
 
   return (
     <>
@@ -142,6 +153,13 @@ const Header = () => {
             handleModalClose={handleLoginToggle}
           />
         )}
+
+        {/* {isError && (
+          <RedirectModal
+            isOpen={isRedirectModalOpen}
+            handleOpenModal={() => setIsRedirectModalOpen((prev) => !prev)}
+          />
+        )} */}
       </AnimatePresence>
     </>
   );

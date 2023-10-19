@@ -14,7 +14,7 @@ export const kakaoUserLogin = async ({
   code,
 }: RequestSnsLogin): Promise<snsLoginData | void> => {
   try {
-    console.log('kakaoUserLogin >', code);
+    console.log('kakaoUserLogin in api >', code);
 
     const { data } = await api.get<ResponseData<snsLoginData>>(
       `/auth/kakao/redirect?code=${code}`,
