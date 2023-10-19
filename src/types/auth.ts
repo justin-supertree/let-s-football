@@ -1,9 +1,7 @@
 import { UserInfo } from '@/types/user';
 
 export type RequestSnsLogin = {
-  serviceId: string;
   code: string;
-  callbackUrl: string;
 };
 
 export type snsLoginData = {

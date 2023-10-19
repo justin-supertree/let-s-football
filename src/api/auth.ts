@@ -11,16 +11,12 @@ import type {
 } from '@/types/auth';
 
 export const kakaoUserLogin = async ({
-  serviceId,
   code,
-  callbackUrl,
 }: RequestSnsLogin): Promise<snsLoginData | void> => {
   try {
-    const { data } = await api.post<ResponseData<snsLoginData>>(
-      '/auth/kakao/redirect',
-      { code, callbackUrl },
-      { headers: { 'service-id': serviceId } },
-    );
+    const { data } = await api.post<ResponseData<snsLoginData>>('/auth/kakao', {
+      code,
+    });
 
     if (!data.result && data.message) {
       throw new ResponseError(data.message, '10');
@@ -37,15 +33,12 @@ export const kakaoUserLogin = async ({
 };
 
 export const googleUserLogin = async ({
-  serviceId,
   code,
-  callbackUrl,
 }: RequestSnsLogin): Promise<snsLoginData | void> => {
   try {
     const { data } = await api.post<ResponseData<snsLoginData>>(
       '/v1/auth/google',
-      { code, callbackUrl },
-      { headers: { 'service-id': serviceId } },
+      { code },
     );
 
     if (!data.result && data.message) {

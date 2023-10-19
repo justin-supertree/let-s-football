@@ -20,11 +20,7 @@ export default NextAuth({
         if (credentials?.code) {
           console.log('credentials >', credentials);
           try {
-            const res = await kakaoUserLogin({
-              code: credentials.code,
-              serviceId: process.env.NEXT_PUBLIC_SERVICE_ID as string,
-              callbackUrl: `${process.env.NEXT_PUBLIC_URL}/callback/kakao`,
-            });
+            const res = await kakaoUserLogin({ code: credentials.code });
 
             if (res && res.user) {
               const { user: userInfo } = res;
@@ -59,11 +55,7 @@ export default NextAuth({
       async authorize(credentials) {
         if (credentials?.code) {
           try {
-            const res = await googleUserLogin({
-              code: credentials.code,
-              serviceId: process.env.NEXT_PUBLIC_SERVICE_ID as string,
-              callbackUrl: `${process.env.NEXT_PUBLIC_URL}/callback/google`,
-            });
+            const res = await googleUserLogin({ code: credentials.code });
 
             if (res && res.user) {
               const { user: userInfo } = res;
