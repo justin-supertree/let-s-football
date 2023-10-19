@@ -17,8 +17,6 @@ export default NextAuth({
       },
 
       async authorize(credentials) {
-        console.log('credentials >', credentials);
-
         if (credentials?.code) {
           console.log('credentials >', credentials);
           try {

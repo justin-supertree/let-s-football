@@ -18,7 +18,7 @@ type AppPropsWithLayout = AppProps & {
 };
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
-  const { dehydratedState, session } = pageProps as {
+  const { dehydratedState } = pageProps as {
     dehydratedState: DehydratedState;
     session: Session;
   };
@@ -27,7 +27,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <SessionProvider session={session}>
+    <SessionProvider session={pageProps.session}>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={dehydratedState}>
           <AppProvider>{getLayout(<Component {...pageProps} />)}</AppProvider>
