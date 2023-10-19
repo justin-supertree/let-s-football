@@ -101,6 +101,7 @@ const Header = () => {
   const handleLoginToggle = () => {
     setIsLoginOpen(!isLoginOpen);
   };
+
   useEffect(() => {
     console.log('session >', session);
   }, [session]);

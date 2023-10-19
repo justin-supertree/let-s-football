@@ -5,6 +5,7 @@ import palette from '@/styles/palette';
 
 import Modal from '.';
 import { IconGoogle, IconKakao } from '@/images';
+import { useEffect } from 'react';
 
 type Props = {
   isOpen: boolean;
@@ -136,6 +137,10 @@ const text = {
 };
 
 const LoginModal = ({ isOpen, handleModalClose }: Props) => {
+  useEffect(() => {
+    console.log();
+  }, []);
+
   return (
     <Modal isOpen={isOpen} handleOpenModal={handleModalClose}>
       <Container>
@@ -148,7 +153,7 @@ const LoginModal = ({ isOpen, handleModalClose }: Props) => {
         <Desc>{text.kor.desc}</Desc>
         <SocialLoginButtonBlock>
           <a
-            href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_URL}&response_type=code`}
+            href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}/callback/kakao&redirect_uri=${process.env.NEXT_PUBLIC_URL}&response_type=code`}
           >
             <SocialLoginButton>
               <figure>
