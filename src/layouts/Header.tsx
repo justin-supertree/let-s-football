@@ -112,7 +112,6 @@ const Header = () => {
 
         <ClickBlock>
           <LoginButton>option1</LoginButton>
-          <LoginButton onClick={handleLoginToggle}>Login</LoginButton>
 
           {session ? (
             <WalletAddress>
@@ -129,12 +128,7 @@ const Header = () => {
             </WalletAddress>
           ) : (
             <div>
-              <WebSignButton onClick={handleLoginToggle}>LOGIN</WebSignButton>
-
-              <LoginBlock onClick={handleLoginToggle}>
-                {/* <IconUserLogin width="20px" height="20px" /> */}
-                IconUserLogout
-              </LoginBlock>
+              <LoginButton onClick={handleLoginToggle}>Login</LoginButton>
             </div>
           )}
         </ClickBlock>
