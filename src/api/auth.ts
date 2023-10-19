@@ -36,33 +36,6 @@ export const kakaoUserLogin = async ({
   }
 };
 
-export const naverUserLogin = async ({
-  serviceId,
-  code,
-  callbackUrl,
-}: RequestSnsLogin): Promise<snsLoginData | void> => {
-  try {
-    const { data } = await api.post<ResponseData<snsLoginData>>(
-      '/v1/auth/naver',
-      { code, callbackUrl },
-      { headers: { 'service-id': serviceId } },
-    );
-
-    if (!data.result && data.message) {
-      throw new ResponseError(data.message, '10');
-    }
-
-    return data.data;
-  } catch (error) {
-    if (error instanceof AxiosError) {
-      throw new ResponseError(error.response?.data.message, '10');
-    }
-    if (error instanceof ResponseError) {
-      throw error;
-    }
-  }
-};
-
 export const googleUserLogin = async ({
   serviceId,
   code,

@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-import { googleUserLogin, kakaoUserLogin, naverUserLogin } from '@/api/auth';
+import { googleUserLogin, kakaoUserLogin } from '@/api/auth';
 import { ResponseError } from '@/types/fetch';
 
 export default NextAuth({
@@ -36,13 +36,12 @@ export default NextAuth({
               };
             }
           } catch (e) {
-            console.log('login Error', e);
             if (e instanceof ResponseError) {
               throw new Error(e.message);
             }
           }
         }
-        return null;
+        return null as any;
       },
     }),
 
@@ -81,7 +80,7 @@ export default NextAuth({
             }
           }
         }
-        return null;
+        return null as any;
       },
     }),
   ],
