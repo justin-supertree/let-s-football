@@ -110,12 +110,29 @@ const Header = () => {
   const { code } = router.query;
   const { status } = useSession();
 
+  // useEffect(() => {
+  //   console.log('code >', code);
+  //   if (code) {
+  //     router.push(`/callback/kakao?code=${code}`);
+  //   }
+  // }, [code, router]);
+
   useEffect(() => {
-    console.log('code >', code);
     if (code) {
-      router.push(`/callback/kakao?code=${code}`);
+      (async () => {
+        const res = await signIn('kakao-credentials', {
+          code,
+          redirect: false,
+        });
+        console.log('res >', res);
+
+        if (res && !res.ok) {
+          setIsError(true);
+          return;
+        }
+      })();
     }
-  }, [code, router]);
+  }, [code]);
 
   return (
     <>
