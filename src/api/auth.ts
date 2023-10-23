@@ -15,19 +15,16 @@ export const kakaoUserLogin = async ({
   redirect,
 }: RequestSnsLogin): Promise<snsLoginData | void> => {
   try {
-    console.log('kakaoUserLogin in api >', code, redirect);
-
-    const res = await api.post<ResponseData<snsLoginData>>(`/auth/kakao`, {
+    const { data } = await api.post<ResponseData<snsLoginData>>(`/auth/kakao`, {
       code,
       redirect,
     });
 
-    console.log('kakaoUserLogin data >', res.data);
-
-    if (!res.data.result && res.data.message) {
-      throw new ResponseError(res.data.message, '10');
+    if (!data.result && data.message) {
+      throw new ResponseError(data.message, '10');
     }
-    return res.data.data;
+
+    return data.data;
   } catch (error) {
     if (error instanceof AxiosError) {
       throw new ResponseError(error.response?.data.message, '10');

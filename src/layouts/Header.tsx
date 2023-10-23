@@ -110,13 +110,6 @@ const Header = () => {
   const { code } = router.query;
   const { status } = useSession();
 
-  // useEffect(() => {
-  //   console.log('code >', code);
-  //   if (code) {
-  //     router.push(`/callback/kakao?code=${code}`);
-  //   }
-  // }, [code, router]);
-
   useEffect(() => {
     if (code) {
       (async () => {
@@ -124,7 +117,6 @@ const Header = () => {
           code,
           redirect: false,
         });
-        console.log('res in header >', res);
 
         if (res && !res.ok) {
           setIsError(true);
