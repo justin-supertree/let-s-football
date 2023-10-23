@@ -124,7 +124,7 @@ const Header = () => {
           code,
           redirect: false,
         });
-        console.log('res >', res);
+        console.log('res in header >', res);
 
         if (res && !res.ok) {
           setIsError(true);

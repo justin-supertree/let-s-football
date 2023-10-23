@@ -2,6 +2,7 @@ import { UserInfo } from '@/types/user';
 
 export type RequestSnsLogin = {
   code: string;
+  redirect: string;
 };
 
 export type snsLoginData = {
@@ -10,7 +11,6 @@ export type snsLoginData = {
   refresh_token: string;
   expires_in: number;
   refresh_token_expires_in: number;
-  user: UserInfo;
 };
 
 export type RequestTermsPolicy = {

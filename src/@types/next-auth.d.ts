@@ -17,8 +17,8 @@ declare module 'next-auth' {
   interface User extends Overwrite<DefaultSession['user'], PartnerInfo> {
     accessToken?: string;
     refreshToken?: string;
-    userInfo: UserInfo;
-    isFirst?: boolean;
+    // userInfo: UserInfo;
+    // isFirst?: boolean;
   }
 }
 declare module 'next-auth/jwt' {

@@ -18,17 +18,20 @@ export default NextAuth({
 
       async authorize(credentials, req) {
         if (credentials?.code) {
+          console.log('req >', req);
           console.log('credentials in api >', credentials);
           try {
-            const res = await kakaoUserLogin({ code: credentials.code });
-            console.log('res >', res);
+            const res = await kakaoUserLogin({
+              code: credentials.code,
+              redirect: `${process.env.NEXT_PUBLIC_URL}/callback/kakao`,
+            });
+            console.log('res in next auth >', res);
 
-            if (res && res.user) {
+            if (res && res) {
               // const { user: userInfo } = res;
               // return {
               //   accessToken: res.access_token,
               //   refreshToken: res.refresh_token,
-              //   id: userInfo.id.toString(),
               // };
             }
           } catch (e) {
@@ -49,17 +52,12 @@ export default NextAuth({
       if (user?.email) {
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
-        token.id = user.id;
-        token.email = user.email;
-        token.userInfo = user.userInfo;
       }
       return token;
     },
     async session({ session, token }) {
       session.accessToken = token.accessToken as string;
       session.refreshToken = token.refreshToken as string;
-      session.userInfo = token.userInfo;
-      session.isFirst = !token.userInfo.walletAddress;
       return session;
     },
   },

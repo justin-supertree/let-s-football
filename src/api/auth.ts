@@ -12,15 +12,17 @@ import type {
 
 export const kakaoUserLogin = async ({
   code,
+  redirect,
 }: RequestSnsLogin): Promise<snsLoginData | void> => {
   try {
     console.log('kakaoUserLogin in api >', code);
 
-    const res = await api.get<ResponseData<snsLoginData>>(
-      `/auth/kakao/redirect?code=${code}`,
+    const res = await api.post<ResponseData<snsLoginData>>(
+      `/auth/kakao/redirect`,
+      { code, redirect },
     );
 
-    console.log('kakaoUserLogin data >', res.data.data);
+    console.log('kakaoUserLogin data >', res);
 
     if (!res.data.result && res.data.message) {
       throw new ResponseError(res.data.message, '10');
