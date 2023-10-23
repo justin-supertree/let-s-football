@@ -16,9 +16,8 @@ export default NextAuth({
         },
       },
 
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         if (credentials?.code) {
-          console.log('req >', req);
           console.log('credentials in api >', credentials);
           try {
             const res = await kakaoUserLogin({
@@ -27,13 +26,15 @@ export default NextAuth({
             });
             console.log('res in next auth >', res);
 
-            if (res && res) {
-              // const { user: userInfo } = res;
-              // return {
-              //   accessToken: res.access_token,
-              //   refreshToken: res.refresh_token,
-              // };
-            }
+            // if (res && res) {
+            //   return {
+            //     accessToken: res.access_token,
+            //     refreshToken: res.refresh_token,
+            //     tokenType: res.token_type,
+            //     expiresIn: res.expires_in,
+            //     refreshTokenExpiresIn: res.refresh_token_expires_in,
+            //   };
+            // }
           } catch (e) {
             if (e instanceof ResponseError) {
               throw new Error(e.message);
@@ -52,6 +53,9 @@ export default NextAuth({
       if (user?.email) {
         token.accessToken = user.accessToken;
         token.refreshToken = user.refreshToken;
+        token.tokenType = user.tokenType;
+        token.expiresIn = user.expiresIn;
+        token.refreshTokenExpiresIn = user.refreshTokenExpiresIn;
       }
       return token;
     },

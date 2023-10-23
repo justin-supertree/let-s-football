@@ -145,7 +145,7 @@ const Header = () => {
           {session ? (
             <WalletAddress>
               <WalletBlock>
-                <WalletAddress>{session?.userInfo.email}</WalletAddress>
+                <WalletAddress>{session?.user?.email}</WalletAddress>
               </WalletBlock>
 
               <WebSignButton onClick={handleLoginToggle}>LOGOUT</WebSignButton>
