@@ -65,7 +65,7 @@ const SocialLoginButtonBlock = styled.div`
   }
 `;
 
-const SocialLoginButton = styled.button`
+const SocialLoginButton = styled(Button)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,16 +74,11 @@ const SocialLoginButton = styled.button`
   padding: 16px;
   border-radius: 8px;
   border: 2px solid ${palette.neutrals700};
-  background-color: inherit;
+  background-color: black;
   cursor: pointer;
-  transition: all 0.12s ease-in-out;
-
-  &:hover {
-    background: ${palette.neutrals700};
-  }
 
   span {
-    color: ${palette.neutrals400};
+    color: ${palette.neutrals900};
     font-family: Novarese;
     font-size: 16px;
     font-style: normal;
@@ -261,7 +256,7 @@ const SiteLanding = () => {
           {session && (
             <div>
               <CustomButton variant="solid">
-                <Link href="/activityHub">Team Locker</Link>
+                <Link href="/activity-hub">Team Locker</Link>
               </CustomButton>
 
               <LogoutButton

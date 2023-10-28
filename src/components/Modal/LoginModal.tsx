@@ -141,9 +141,6 @@ const LoginModal = ({ isOpen, handleModalClose }: Props) => {
       <Container>
         <TitleBlock>
           <Title>{text.kor.title}</Title>
-          {/* <CloseButton type="button" onClick={handleModalClose}>
-            <MdClose size={24} color="white" />
-          </CloseButton> */}
         </TitleBlock>
         <Desc>{text.kor.desc}</Desc>
         <SocialLoginButtonBlock>
@@ -157,16 +154,7 @@ const LoginModal = ({ isOpen, handleModalClose }: Props) => {
               <span>{text.kor.kakao}</span>
             </SocialLoginButton>
           </a>
-          {/* <a
-            href={`https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_NAVER_CLIENT_ID}&redirect_uri=${redirectUrl}callback/naver`}
-          >
-            <SocialLoginButton>
-              <figure>
-                <IconNaver />
-              </figure>
-              <span>{text.kor.naver}</span>
-            </SocialLoginButton>
-          </a> */}
+
           <a
             href={`https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&include_granted_scopes=true&response_type=code&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_URL}/callback/google`}
           >
