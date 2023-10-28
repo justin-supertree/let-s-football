@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import palette from '@/styles/palette';
-import { IconGoogle, IconKakao } from '@/images';
+import { useRouter } from 'next/router';
 import { Input } from '@chakra-ui/react';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
+
+import palette from '@/styles/palette';
+
+import { IconGoogle, IconKakao } from '@/images';
 import Button from '@/components/Button';
+import BaseModal from '@/components/Modal/BaseModal';
+import { AnimatePresence } from 'framer-motion';
 
 const Container = styled.div`
   position: relative;
@@ -120,6 +125,10 @@ const CustomButtom = styled(Button)`
   margin: 24px 0;
 `;
 
+const LogoutButton = styled(Button)`
+  width: 100%;
+`;
+
 const text = {
   kor: {
     title: 'MaestroPitch Login',
@@ -138,7 +147,16 @@ const text = {
 };
 
 const SiteLanding = () => {
+  const [isConfirmLogout, setIsConfirmLogout] = useState(false);
   const { data: session } = useSession();
+
+  const router = useRouter();
+
+  const handleLogoutButton = () => {
+    setIsConfirmLogout(false);
+    signOut({ redirect: false });
+    router.push('/');
+  };
 
   const handleScrollToButton = () => {
     alert('click scroll button');
@@ -224,10 +242,28 @@ const SiteLanding = () => {
           {session && (
             <div>
               <CustomButtom variant="solid">Team Locker</CustomButtom>
+              <LogoutButton
+                variant="ghost"
+                onClick={() => setIsConfirmLogout(true)}
+              >
+                Logout
+              </LogoutButton>
             </div>
           )}
         </TitleBlock>
       </Section>
+
+      <AnimatePresence initial={false} onExitComplete={() => null}>
+        {isConfirmLogout && (
+          <BaseModal
+            title="로그아웃 성공"
+            desc="다음에 또 봐요~"
+            buttonType="single"
+            isOpen={isConfirmLogout}
+            handleOpenModal={handleLogoutButton}
+          />
+        )}
+      </AnimatePresence>
     </Container>
   );
 };
