@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import { Button } from '@chakra-ui/react';
 import { AnimatePresence } from 'framer-motion';
 
-import LoginModal from '@/components/Modal/LoginModal';
 import { signIn, useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import RedirectModal from '@/components/Modal/RedirectModal';
+
+import LoginModal from '../components/Modal/LoginModal';
+import RedirectModal from '../components/Modal/RedirectModal';
 
 const Container = styled.div`
   display: flex;
@@ -30,8 +31,11 @@ const ClickBlock = styled.div`
   gap: 16px;
 `;
 
-const WalletAddress = styled.p`
-  max-width: 50px;
+const HeaderLoginBlock = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
   font-family: Sweet Sans Pro;
   font-size: 14px;
   font-style: normal;
@@ -49,32 +53,30 @@ const WalletAddress = styled.p`
   }
 `;
 
-const WalletBlock = styled.div`
-  display: flex;
-  align-items: end;
-  gap: 24px;
-  cursor: pointer;
+const UserInfoText = styled.p`
+  font-family: Sweet Sans Pro;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  color: var(--Color-White, #fff);
 `;
 
 const WebSignButton = styled(Button)`
-  display: none;
-
-  @media screen and (min-width: 1024px) {
-    display: block;
-    flex-direction: column;
-    width: fit-content;
-    padding: 4px 16px;
-    font-family: Sweet Sans Pro;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 20px;
-    letter-spacing: -0.28px;
-    border-radius: 6px;
-    border: 1px solid var(--secondary-04, transparent);
-    background: var(--secondary-01, #444);
-  }
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: fit-content;
+  padding: 4px 16px;
+  font-family: Sweet Sans Pro;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+  border-radius: 6px;
+  border: 1px solid var(--secondary-04, transparent);
+  background: var(--secondary-01, #444);
   color: var(--primary-white, var(--Color-White, #fff));
 `;
 
@@ -118,7 +120,7 @@ const Header = () => {
           redirect: false,
         });
 
-        if (res && !res.ok) {
+        if (res?.error && !res.ok) {
           setIsError(true);
           return;
         }
@@ -132,21 +134,14 @@ const Header = () => {
         <LogoBlock>Logo</LogoBlock>
 
         <ClickBlock>
-          <LoginButton>option1</LoginButton>
-
           {session ? (
-            <WalletAddress>
-              <WalletBlock>
-                <WalletAddress>{session?.user?.email}</WalletAddress>
-              </WalletBlock>
+            <HeaderLoginBlock>
+              <UserInfoText>
+                <span>로그인 이메일 : {session?.user?.email}</span>
+              </UserInfoText>
 
               <WebSignButton onClick={handleLoginToggle}>LOGOUT</WebSignButton>
-
-              <LoginBlock onClick={handleLoginToggle}>
-                {/* <IconUserLogout width="24px" height="24px" /> */}
-                IconUserLogout
-              </LoginBlock>
-            </WalletAddress>
+            </HeaderLoginBlock>
           ) : (
             <div>
               <LoginButton onClick={handleLoginToggle}>Login</LoginButton>
@@ -163,12 +158,12 @@ const Header = () => {
           />
         )}
 
-        {/* {isError && (
+        {isError && (
           <RedirectModal
             isOpen={isRedirectModalOpen}
             handleOpenModal={() => setIsRedirectModalOpen((prev) => !prev)}
           />
-        )} */}
+        )}
       </AnimatePresence>
     </>
   );
