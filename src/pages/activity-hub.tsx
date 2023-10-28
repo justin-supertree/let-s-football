@@ -41,7 +41,7 @@ const ActiveBlock = styled.div`
   gap: 12px;
 `;
 
-const ActivityContents = styled.div`
+const ActivityContents = styled.div<{ isDisActive?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -49,13 +49,14 @@ const ActivityContents = styled.div`
   height: 150px;
   border-radius: 16px;
   padding: 24px;
-  background-color: lightcoral;
+  background-color: ${({ isDisActive }) =>
+    isDisActive ? 'lightgray' : 'lightcoral'};
   transition: 0.2s all ease-in-out;
   font-size: 44px;
   font-family: 600;
 
   :hover {
-    opacity: 0.8;
+    opacity: ${({ isDisActive }) => !isDisActive && 0.8};
   }
 `;
 
@@ -77,8 +78,8 @@ const ActivityHub: NextPageWithLayout = () => {
         <ActivityContents onClick={handleSelectContents}>
           Football
         </ActivityContents>
-        <ActivityContents>BaseBall</ActivityContents>
-        <ActivityContents>Table tennis</ActivityContents>
+        <ActivityContents isDisActive>BaseBall</ActivityContents>
+        <ActivityContents isDisActive>Table tennis</ActivityContents>
       </ActiveBlock>
     </Container>
   );

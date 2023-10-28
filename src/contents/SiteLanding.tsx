@@ -273,9 +273,9 @@ const SiteLanding = () => {
 
           {session && (
             <div>
-              <CustomButton variant="solid">
-                <Link href="/activity-hub">Team Locker</Link>
-              </CustomButton>
+              <Link href="/activity-hub">
+                <CustomButton variant="solid">Team Locker</CustomButton>
+              </Link>
 
               <LogoutButton
                 variant="ghost"

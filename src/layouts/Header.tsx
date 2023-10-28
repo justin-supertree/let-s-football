@@ -4,11 +4,12 @@ import styled from '@emotion/styled';
 import { Button } from '@chakra-ui/react';
 import { AnimatePresence } from 'framer-motion';
 
-import { signIn, useSession } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 import LoginModal from '../components/Modal/LoginModal';
 import RedirectModal from '../components/Modal/RedirectModal';
 import Link from 'next/link';
+import BaseModal from '@/components/Modal/BaseModal';
 
 const Container = styled.div`
   display: flex;
@@ -113,10 +114,17 @@ const LoginButton = styled(Button)``;
 
 const Header = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isConfirmLogout, setIsConfirmLogout] = useState(false);
   const [isRedirectModalOpen, setIsRedirectModalOpen] = useState(false);
   const [isError, setIsError] = useState(false);
 
   const { data: session } = useSession();
+
+  const handleLogoutButton = () => {
+    setIsConfirmLogout(false);
+    signOut({ redirect: false });
+    router.push('/');
+  };
 
   const handleLoginToggle = () => {
     setIsLoginOpen(!isLoginOpen);
@@ -160,7 +168,9 @@ const Header = () => {
                 <span>로그인 이메일 : {session?.user?.email}</span>
               </UserInfoText>
 
-              <WebSignButton onClick={handleLoginToggle}>LOGOUT</WebSignButton>
+              <WebSignButton onClick={() => setIsConfirmLogout(true)}>
+                LOGOUT
+              </WebSignButton>
             </HeaderLoginBlock>
           ) : (
             <div>
@@ -175,6 +185,16 @@ const Header = () => {
           <LoginModal
             isOpen={isLoginOpen}
             handleModalClose={handleLoginToggle}
+          />
+        )}
+
+        {isConfirmLogout && (
+          <BaseModal
+            title="로그아웃 성공"
+            desc="다음에 또 봐요~"
+            buttonType="single"
+            isOpen={isConfirmLogout}
+            handleOpenModal={handleLogoutButton}
           />
         )}
 
