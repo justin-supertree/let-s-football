@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { Input } from '@chakra-ui/react';
@@ -120,13 +121,26 @@ const LoginInfoText = styled.div`
   }
 `;
 
-const CustomButtom = styled(Button)`
+const CustomButton = styled(Button)`
   width: 100%;
   margin: 24px 0;
 `;
 
 const LogoutButton = styled(Button)`
   width: 100%;
+`;
+
+const SignInTextBlock = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+`;
+
+const SignInText = styled.p`
+  font-size: 14px;
+  font-family: 400;
+  color: aqua;
 `;
 
 const text = {
@@ -211,6 +225,11 @@ const SiteLanding = () => {
                   <p>비밀번호 :</p>
                   <Input />
                 </LoginInfoText>
+
+                <SignInTextBlock>
+                  <SignInText>아이디/비밀번호찾기</SignInText>
+                  <SignInText>회원가입</SignInText>
+                </SignInTextBlock>
               </EmailLoginBlock>
 
               <SocialLoginButtonBlock>
@@ -241,7 +260,10 @@ const SiteLanding = () => {
 
           {session && (
             <div>
-              <CustomButtom variant="solid">Team Locker</CustomButtom>
+              <CustomButton variant="solid">
+                <Link href="/activityHub">Team Locker</Link>
+              </CustomButton>
+
               <LogoutButton
                 variant="ghost"
                 onClick={() => setIsConfirmLogout(true)}
