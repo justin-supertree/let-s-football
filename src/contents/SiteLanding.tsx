@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
 import { Input } from '@chakra-ui/react';
-import { signOut, useSession } from 'next-auth/react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 import palette from '@/styles/palette';
 
@@ -157,9 +157,11 @@ const text = {
 
 const SiteLanding = () => {
   const [isConfirmLogout, setIsConfirmLogout] = useState(false);
-  const { data: session } = useSession();
+  const [isError, setIsError] = useState(false);
 
+  const { data: session } = useSession();
   const router = useRouter();
+  const { code } = router.query;
 
   const handleLogoutButton = () => {
     setIsConfirmLogout(false);
@@ -170,6 +172,22 @@ const SiteLanding = () => {
   const handleScrollToButton = () => {
     alert('click scroll button');
   };
+
+  useEffect(() => {
+    if (code) {
+      (async () => {
+        const res = await signIn('kakao-credentials', {
+          code,
+          redirect: false,
+        });
+
+        if (res?.error && !res.ok) {
+          setIsError(true);
+          return;
+        }
+      })();
+    }
+  }, [code]);
 
   return (
     <Container>

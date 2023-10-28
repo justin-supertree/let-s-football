@@ -8,6 +8,7 @@ import { signIn, useSession } from 'next-auth/react';
 
 import LoginModal from '../components/Modal/LoginModal';
 import RedirectModal from '../components/Modal/RedirectModal';
+import Link from 'next/link';
 
 const Container = styled.div`
   display: flex;
@@ -20,8 +21,21 @@ const Container = styled.div`
   background-color: #0e1e5b;
 `;
 
+const RoutingBlock = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+`;
+
 const LogoBlock = styled.div`
-  border: 1px solid white;
+  font-size: 24px;
+  color: aqua;
+  transition: 0.2s all ease-in-out;
+
+  :hover {
+    color: red;
+  }
 `;
 
 const ClickBlock = styled.div`
@@ -110,7 +124,6 @@ const Header = () => {
 
   const router = useRouter();
   const { code } = router.query;
-  const { status } = useSession();
 
   useEffect(() => {
     if (code) {
@@ -131,7 +144,14 @@ const Header = () => {
   return (
     <>
       <Container>
-        <LogoBlock>Logo</LogoBlock>
+        <RoutingBlock>
+          <Link href="/">
+            <LogoBlock>Logo</LogoBlock>
+          </Link>
+          <Link href="/activity-hub">
+            <LogoBlock>Activities</LogoBlock>
+          </Link>
+        </RoutingBlock>
 
         <ClickBlock>
           {session ? (
