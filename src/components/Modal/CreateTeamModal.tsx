@@ -5,7 +5,7 @@ import Modal from '.';
 
 type Props = {
   title: string;
-  desc: string;
+  desc?: string;
   buttonType?: 'single' | 'double';
   isOpen: boolean;
   handleLogout?: () => void;
@@ -91,7 +91,7 @@ const ModalDescription = styled.p`
   line-height: 20px;
 `;
 
-const BaseModal = ({
+const CreateTeamModal = ({
   title,
   desc,
   buttonType,
@@ -106,6 +106,10 @@ const BaseModal = ({
           <ModalTitle>{title}</ModalTitle>
           <ModalDescription>{desc}</ModalDescription>
         </TextBox>
+
+        <div>
+          <p>We are waiting for you make New Team!</p>
+        </div>
 
         {buttonType === 'double' && (
           <ButtonBox>
@@ -146,4 +150,4 @@ const BaseModal = ({
   );
 };
 
-export default BaseModal;
+export default CreateTeamModal;

@@ -8,7 +8,7 @@ import Image from '../Image';
 
 type Props = {
   isOpen: boolean;
-  buttonType?: 'single' | 'dubble';
+  buttonType?: 'single' | 'double';
   handleOpenModal: () => void;
 };
 

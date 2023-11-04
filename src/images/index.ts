@@ -4,6 +4,7 @@ import IconNaver from './icon-naver.svg';
 import IconGoogle from './icon-google.svg';
 import IconError from './icon-error.svg';
 import IconDuplicate from './Icon-duplicates.svg';
+import IconCheck from './icon-check.svg';
 
 export {
   IconArrow,
@@ -12,4 +13,5 @@ export {
   IconNaver,
   IconGoogle,
   IconError,
+  IconCheck,
 };

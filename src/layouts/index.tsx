@@ -17,7 +17,7 @@ const Container = styled.div`
 const MainBlock = styled.div`
   width: 100%;
   min-height: 60vh;
-  height: 100vh;
+  /* height: 100vh; */
   background-color: #091442;
 `;
 

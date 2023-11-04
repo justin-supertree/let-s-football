@@ -4,6 +4,9 @@ import { NextPageWithLayout } from '../types/next-page';
 
 import Layout from '@/layouts';
 import { useRouter } from 'next/router';
+import Button from '@/components/Button';
+import { AnimatePresence } from 'framer-motion';
+import CreateTeamModal from '@/components/Modal/CreateTeamModal';
 
 const Container = styled.div`
   height: 100%;
@@ -16,6 +19,10 @@ const Container = styled.div`
 `;
 
 const ContentsHubBlock = styled.div`
+  margin-bottom: 16px;
+`;
+
+const ContentsWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -25,8 +32,8 @@ const ContentsHubBlock = styled.div`
   text-align: center;
 
   & > p {
-    font-size: 22px;
-    font-family: 600;
+    font-size: 52px;
+    font-weight: 800;
     font-family: Novarese;
   }
 `;
@@ -60,18 +67,36 @@ const ActivityContents = styled.div<{ isDisActive?: boolean }>`
   }
 `;
 
+const CreateTeamButton = styled(Button)`
+  font-size: 22px;
+  font-family: 600;
+  font-family: Novarese;
+`;
+
 const ActivityHub: NextPageWithLayout = () => {
+  // const [isCreateTeam, setIsCreateTeam] = useState(false);
   const router = useRouter();
 
   const handleSelectContents = () => {
     router.push('/activities/football');
   };
 
+  const handleCreateTeam = () => {
+    router.push('/manager-locker');
+    // setIsCreateTeam(true);
+  };
+
   return (
     <Container>
       <ContentsHubBlock>
-        <p>Welcome Player</p>
-        <p>Here is ActivityHub</p>
+        <ContentsWrap>
+          <p>Welcome Player</p>
+          <p>Here is ActivityHub</p>
+        </ContentsWrap>
+
+        {/* <CreateTeamButton variant="solid" onClick={handleCreateTeam}>
+          Create Team
+        </CreateTeamButton> */}
       </ContentsHubBlock>
 
       <ActiveBlock>
@@ -81,6 +106,18 @@ const ActivityHub: NextPageWithLayout = () => {
         <ActivityContents isDisActive>BaseBall</ActivityContents>
         <ActivityContents isDisActive>Table tennis</ActivityContents>
       </ActiveBlock>
+
+      {/* <AnimatePresence initial={false} onExitComplete={() => null}>
+        {isCreateTeam && (
+          <CreateTeamModal
+            title="Create Team!"
+            desc="Let's Create your Team!"
+            buttonType="double"
+            isOpen={isCreateTeam}
+            handleOpenModal={() => setIsCreateTeam(!isCreateTeam)}
+          />
+        )}
+      </AnimatePresence> */}
     </Container>
   );
 };
