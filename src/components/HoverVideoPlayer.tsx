@@ -10,7 +10,14 @@ const ImageBlock = styled.div`
   border-radius: 12px;
 
   & > img {
-    max-height: 450px;
+    max-height: 445px;
+    object-fit: cover;
+    opacity: 0.8;
+    border-radius: 12px;
+  }
+
+  & > video {
+    max-height: 445px;
     object-fit: cover;
     opacity: 0.8;
     border-radius: 12px;
@@ -30,8 +37,8 @@ const HoverVideoPlayer = ({ videoUrl, postImage, isHovered }: Props) => (
         autoPlay
         loop
         width="100%"
-        height="100%"
-        style={{ top: 0, bottom: 0, width: '100%', height: '100%' }}
+        height="450px"
+        style={{ top: 0, bottom: 0, maxHeight: '445px' }}
       >
         <source src={videoUrl} type="video/mp4" />
       </video>

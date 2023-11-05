@@ -38,11 +38,11 @@ const ContentsWrap = styled.div`
   justify-content: center;
   flex-direction: column;
   height: 150px;
-  padding: 16px;
   text-align: center;
 
   & > p {
-    font-size: 52px;
+    margin-top: 48px;
+    font-size: 54px;
     font-weight: 800;
     font-family: Novarese;
   }
@@ -209,8 +209,9 @@ const ActivityHub: NextPageWithLayout = () => {
     <Container>
       <ContentsHubBlock>
         <ContentsWrap>
-          <p>Welcome Player</p>
-          <p>Here is ActivityHub</p>
+          <p>
+            If you fail to prepare, you&apos;ve prepared to fail. - Mark Spitz
+          </p>
         </ContentsWrap>
       </ContentsHubBlock>
 
