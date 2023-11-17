@@ -213,7 +213,7 @@ const ManagerLocker: NextPageWithLayout = () => {
         <CustomButton color="lightblue">임시저장</CustomButton>
       </LockerTopBlock>
 
-      <CurrentPageText>Current Page {step}</CurrentPageText>
+      <CurrentPageText>Current Page {step + 1}</CurrentPageText>
 
       <MainBlock>
         {step === 0 && (
