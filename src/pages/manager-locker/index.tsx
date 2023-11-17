@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { Input } from '@chakra-ui/react';
+import { Input, Select } from '@chakra-ui/react';
 import Image from 'next/image';
 
 import { NextPageWithLayout } from '@/types/next-page';
@@ -9,6 +9,7 @@ import Layout from '@/layouts';
 import Button from '@/components/Button';
 
 import CurrentStep from '@/components/CurrentStep';
+import FormationTable from '@/components/\bFormationTable';
 
 type InitialProps = {
   teamName: { value: string; result: false };
@@ -47,7 +48,7 @@ const MainBlock = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 45vh;
+  min-height: 70vh;
   font-family: Novarese;
   font-size: 32px;
   font-style: normal;
@@ -56,8 +57,11 @@ const MainBlock = styled.div`
 `;
 
 const RecruitmentBlock = styled.div`
-  width: 40%;
-  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 75%;
+  height: 640px;
   border: 1px solid lightgreen;
 `;
 
@@ -84,7 +88,8 @@ const InformationBlock = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 450px;
+  width: 100%;
+  min-height: 450px;
   gap: 35px;
 `;
 
@@ -150,6 +155,12 @@ const FootBallTypeImage = styled.div`
   &:hover {
     background-color: lightsalmon;
   }
+`;
+
+const PlayerInfoBlock = styled.div`
+  width: 550px;
+  height: 100%;
+  padding: 2rem;
 `;
 
 const ManagerLocker: NextPageWithLayout = () => {
@@ -232,20 +243,63 @@ const ManagerLocker: NextPageWithLayout = () => {
         {step === 2 && (
           <InformationBlock>
             <SubTitle>집결 장소</SubTitle>
-            <CustomInput />
+            <RecruitmentBlock>
+              <PlayerInfoBlock>kakao map</PlayerInfoBlock>
+            </RecruitmentBlock>
           </InformationBlock>
         )}
 
         {step === 3 && (
           <InformationBlock>
-            <SubTitle>Detail Information(3)</SubTitle>
-            <CustomInput />
+            <SubTitle>스쿼드 전략</SubTitle>
+
+            <RecruitmentBlock>
+              <PlayerInfoBlock>
+                <div>
+                  <p>참여인원 : </p>
+
+                  <Select>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                  </Select>
+                </div>
+
+                <div>
+                  <p>포메이션 : </p>
+                  <Select>
+                    <option>Custom</option>
+                    <option>3142</option>
+                    <option>343</option>
+                    <option>352</option>
+                    <option>41212</option>
+                    <option>4141</option>
+                    <option>4231</option>
+                    <option>424</option>
+                    <option>433</option>
+                    <option>4411</option>
+                    <option>442</option>
+                    <option>532</option>
+                    <option>541</option>
+                  </Select>
+                </div>
+
+                <div></div>
+              </PlayerInfoBlock>
+
+              <FormationTable />
+            </RecruitmentBlock>
           </InformationBlock>
         )}
 
         {step === 4 && (
           <InformationBlock>
-            <SubTitle>Detail Information(4)</SubTitle>
+            <SubTitle>최종 확인</SubTitle>
             <CustomInput />
           </InformationBlock>
         )}

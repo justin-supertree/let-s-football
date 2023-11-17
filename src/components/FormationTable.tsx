@@ -2,25 +2,21 @@ import React from 'react';
 import styled from '@emotion/styled';
 import Image from 'next/image';
 
-import FourFourTwo from '@/images/football-442.png';
+import EmptyField from '@/images/soccer-field-empty.png';
 
 const StrategicTableBlock = styled.div`
-  width: 60%;
+  position: relative;
   height: 100%;
   border: 1px solid lightpink;
-`;
-
-const BlockTitle = styled.p`
-  font-size: 32px;
-  font-weight: 800;
-  margin-bottom: 26px;
+  overflow: hidden;
 `;
 
 const StrategicBoard = styled.div`
-  width: 100%;
-  height: 100%;
+  height: 650px;
 
   & > img {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
   }
 `;
@@ -28,13 +24,9 @@ const StrategicBoard = styled.div`
 const FormationTable = () => {
   return (
     <StrategicTableBlock>
-      <BlockTitle>strategic table</BlockTitle>
-
-      <div>
-        <StrategicBoard>
-          <Image src={FourFourTwo} alt="football-442" />
-        </StrategicBoard>
-      </div>
+      <StrategicBoard>
+        <Image src={EmptyField} alt="football-442" objectFit="contain" />
+      </StrategicBoard>
     </StrategicTableBlock>
   );
 };
