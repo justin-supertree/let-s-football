@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+import Link from 'next/link';
 import styled from '@emotion/styled';
 import { Button } from '@chakra-ui/react';
 import { AnimatePresence } from 'framer-motion';
-
 import { signIn, signOut, useSession } from 'next-auth/react';
 
+import BaseModal from '@/components/Modal/BaseModal';
 import LoginModal from '../components/Modal/LoginModal';
 import RedirectModal from '../components/Modal/RedirectModal';
-import Link from 'next/link';
-import BaseModal from '@/components/Modal/BaseModal';
+
+import MainLogo from '@/images/main-logo.png';
 
 const Container = styled.div`
   display: flex;
@@ -30,9 +32,18 @@ const RoutingBlock = styled.div`
 `;
 
 const LogoBlock = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 45px;
   font-size: 24px;
   color: aqua;
   transition: 0.2s all ease-in-out;
+
+  & > img {
+    border-radius: 12px;
+  }
 
   :hover {
     color: red;
@@ -154,7 +165,9 @@ const Header = () => {
       <Container>
         <RoutingBlock>
           <Link href="/">
-            <LogoBlock>Logo</LogoBlock>
+            <LogoBlock>
+              <Image src={MainLogo} alt="main-logo" />
+            </LogoBlock>
           </Link>
           <Link href="/activity-hub">
             <LogoBlock>Activities</LogoBlock>
