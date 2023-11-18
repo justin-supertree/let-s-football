@@ -15,8 +15,8 @@ const StrategicBoard = styled.div`
 
   & > img {
     width: 100%;
-    height: 100%;
-    object-fit: contain;
+    max-height: 640px;
+    min-height: 640px;
   }
 `;
 const PositionAreaBlock = styled.div`
@@ -29,7 +29,7 @@ const PositionAreaBlock = styled.div`
 const ForwardBlock = styled.div`
   width: 100%;
   height: 25%;
-  padding: 1rem;
+  padding: 2rem;
   transition: all 0.2s ease-in-out;
   z-index: 0;
 
@@ -41,7 +41,7 @@ const ForwardBlock = styled.div`
 const MidFieldBlock = styled.div`
   width: 100%;
   height: 35%;
-  padding: 1rem;
+  padding: 2rem;
   z-index: 0;
   transition: all 0.2s ease-in-out;
 
@@ -53,7 +53,7 @@ const MidFieldBlock = styled.div`
 const DefenceBlock = styled.div`
   width: 100%;
   height: 30%;
-  padding: 1rem;
+  padding: 2rem;
   z-index: 0;
   transition: all 0.2s ease-in-out;
 
@@ -65,7 +65,7 @@ const DefenceBlock = styled.div`
 const GoaleKipperBlock = styled.div`
   width: 100%;
   height: 10%;
-  padding: 1rem;
+  padding: 1rem 2rem;
   z-index: 0;
   transition: all 0.2s ease-in-out;
 
@@ -80,10 +80,10 @@ const FormationTable = () => {
       <StrategicBoard>
         <Image src={EmptyField} alt="football-442" objectFit="contain" />
         <PositionAreaBlock>
-          <ForwardBlock>as</ForwardBlock>
-          <MidFieldBlock>as</MidFieldBlock>
-          <DefenceBlock>as</DefenceBlock>
-          <GoaleKipperBlock>as</GoaleKipperBlock>
+          <ForwardBlock>ST</ForwardBlock>
+          <MidFieldBlock>MD</MidFieldBlock>
+          <DefenceBlock>DF</DefenceBlock>
+          <GoaleKipperBlock>GK</GoaleKipperBlock>
         </PositionAreaBlock>
       </StrategicBoard>
     </StrategicTableBlock>

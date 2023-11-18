@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { Input, Select } from '@chakra-ui/react';
-import Image from 'next/image';
+import { Input, Select, keyframes } from '@chakra-ui/react';
+import Image, { StaticImageData } from 'next/image';
 
 import { NextPageWithLayout } from '@/types/next-page';
 
@@ -10,6 +10,10 @@ import Button from '@/components/Button';
 
 import CurrentStep from '@/components/CurrentStep';
 import FormationTable from '@/components/\bFormationTable';
+import FieldOne from '@/images/field-1.jpg';
+import FieldTwo from '@/images/field-2.jpg';
+import FieldThree from '@/images/field-3.jpg';
+import { css } from '@emotion/react';
 
 type InitialProps = {
   teamName: { value: string; result: false };
@@ -18,6 +22,8 @@ type InitialProps = {
   teamGender: { value: string; result: false };
   Contact: { value: string; type: string; result: false };
 };
+
+type ImageState = StaticImageData | string;
 
 const Container = styled.div`
   position: relative;
@@ -45,6 +51,7 @@ const CurrentPageText = styled.p`
 `;
 
 const MainBlock = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,14 +61,16 @@ const MainBlock = styled.div`
   font-style: normal;
   font-weight: 800;
   color: white;
+  z-index: 100;
 `;
 
 const RecruitmentBlock = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 75%;
+  justify-content: center;
+  width: 100%;
   height: 640px;
+  padding: 0 5rem;
   border: 1px solid lightgreen;
 `;
 
@@ -100,14 +109,21 @@ const SubTitle = styled.p`
 `;
 
 const CustomInput = styled(Input)`
-  width: 100%;
+  width: 50%;
   height: 75px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  cursor: pointer;
 `;
 
 const LockerTopBlock = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  z-index: 100;
 `;
 
 const CustomButton = styled(Button)<{ color?: string }>`
@@ -158,14 +174,92 @@ const FootBallTypeImage = styled.div`
 `;
 
 const PlayerInfoBlock = styled.div`
-  width: 550px;
+  width: 30%;
   height: 100%;
   padding: 2rem;
 `;
 
+const CurrentPlayerTableBlock = styled.div`
+  width: 30%;
+  height: 100%;
+  padding: 2rem 1rem;
+  border-left: 1px solid white;
+  overflow-y: auto;
+`;
+
+const PlayerColumnBlock = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border: 1px solid;
+  border-radius: 12px;
+  padding: 1rem;
+`;
+
+const PlayerImg = styled.div`
+  min-width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: lightcyan;
+`;
+
+const DetailContainer = styled.div`
+  width: 100%;
+`;
+
+const FieldTableBlock = styled.div`
+  width: 30%;
+  height: 100%;
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.6; 
+  }
+`;
+
+const OverlayBlock = styled.div<{ step: number }>`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  animation: ${fadeIn} 1s ease-in-out forwards;
+  ${({ step }) => css`
+    opacity: ${step / 100};
+  `}
+`;
+
+const OverLayImage = styled(Image)`
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
+`;
+
+const DetailInfoBlock = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+  font-size: 24px;
+`;
+
+const DetailSelectBox = styled.div`
+  width: 100%;
+  height: 70px;
+  border: 1px solid;
+`;
+
+const backgroundImages = [FieldOne, FieldTwo, FieldThree];
+
 const ManagerLocker: NextPageWithLayout = () => {
   const [step, setStep] = useState(0);
-  const [value, setValue] = useState('1');
+  const [players, setPlayers] = useState(11);
+  const [selectedFormation, setSelectedFormation] = useState('Custom');
+  const [backgroundView, setBackgroundView] = useState<ImageState>('');
   const [recruitmentInfos, setRecruitmentInfos] = useState(initialProps);
   const [createData, setCreateData] = useState<InitialProps>({
     teamName: { value: '', result: false },
@@ -174,6 +268,22 @@ const ManagerLocker: NextPageWithLayout = () => {
     teamGender: { value: '', result: false },
     Contact: { value: '', type: '', result: false },
   });
+  const options = [11, 10, 9, 8, 7, 6, 5, 4];
+  const formationOptions = [
+    'Custom',
+    '3142',
+    '343',
+    '352',
+    '41212',
+    '4141',
+    '4231',
+    '424',
+    '433',
+    '4411',
+    '442',
+    '532',
+    '541',
+  ];
 
   // const updateCreateData = useCallback((key, value) => {
   //   setCreateData((prevData) => ({
@@ -206,8 +316,34 @@ const ManagerLocker: NextPageWithLayout = () => {
     }
   }, [step]);
 
+  const handleSelectChange = (event: { target: { value: string } }) => {
+    const selectedPlayers = parseInt(event.target.value, 10);
+    setPlayers(selectedPlayers);
+  };
+
+  const handleSelectFormationChange = (event: {
+    target: { value: string };
+  }) => {
+    const selectedFormation = event.target.value;
+    setSelectedFormation(selectedFormation);
+  };
+
+  useEffect(() => {
+    if (step === 0) {
+      setBackgroundView(backgroundImages[0]);
+    } else if (step === 1) {
+      setBackgroundView(backgroundImages[1]);
+    } else if (step === 2) {
+      setBackgroundView(backgroundImages[2]);
+    }
+  }, [step]);
+
   return (
     <Container>
+      <OverlayBlock step={step}>
+        <OverLayImage src={backgroundView} alt="aa" />
+      </OverlayBlock>
+
       <LockerTopBlock>
         <PageTitle>Manager Locker</PageTitle>
         <CustomButton color="lightblue">임시저장</CustomButton>
@@ -258,41 +394,54 @@ const ManagerLocker: NextPageWithLayout = () => {
                 <div>
                   <p>참여인원 : </p>
 
-                  <Select>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                    <option>9</option>
-                    <option>10</option>
-                    <option>11</option>
+                  <Select value={players} onChange={handleSelectChange}>
+                    {options.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
                   </Select>
                 </div>
 
                 <div>
                   <p>포메이션 : </p>
-                  <Select>
-                    <option>Custom</option>
-                    <option>3142</option>
-                    <option>343</option>
-                    <option>352</option>
-                    <option>41212</option>
-                    <option>4141</option>
-                    <option>4231</option>
-                    <option>424</option>
-                    <option>433</option>
-                    <option>4411</option>
-                    <option>442</option>
-                    <option>532</option>
-                    <option>541</option>
+                  <Select
+                    value={selectedFormation}
+                    onChange={handleSelectFormationChange}
+                  >
+                    {formationOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
                   </Select>
                 </div>
 
                 <div></div>
               </PlayerInfoBlock>
 
-              <FormationTable />
+              <CurrentPlayerTableBlock>
+                <PlayerColumnBlock>
+                  <PlayerImg />
+
+                  <DetailContainer>
+                    <DetailInfoBlock>
+                      <DetailSelectBox>이름(나이)</DetailSelectBox>
+                      <DetailSelectBox>등번호</DetailSelectBox>
+                    </DetailInfoBlock>
+
+                    <DetailInfoBlock>
+                      <DetailSelectBox>포지션</DetailSelectBox>
+                      <DetailSelectBox>주발(좌/우)</DetailSelectBox>
+                      <DetailSelectBox>(공격/수비) 타입</DetailSelectBox>
+                    </DetailInfoBlock>
+                  </DetailContainer>
+                </PlayerColumnBlock>
+              </CurrentPlayerTableBlock>
+
+              <FieldTableBlock>
+                <FormationTable />
+              </FieldTableBlock>
             </RecruitmentBlock>
           </InformationBlock>
         )}
@@ -303,62 +452,6 @@ const ManagerLocker: NextPageWithLayout = () => {
             <CustomInput />
           </InformationBlock>
         )}
-
-        {/* <RecruitmentBlock>
-          <BlockTitle>Recruitment information</BlockTitle>
-          <div>
-          1
-            <InputBlock>
-              <p>Team Name : </p>
-              <Input />
-            </InputBlock>
-
-            <InputBlock>
-              <p>Football Type : </p>
-              <Select>
-                <option>축구(풀코트)</option>
-                <option>축구(하프코드)</option>
-                <option>풋살</option>
-                <option>축구강습</option>
-              </Select>
-            </InputBlock>
-
-
-            <InputBlock>
-              <p>Team Member : </p>
-              <Input />
-            </InputBlock>
-
-            <InputBlock>
-              <p>Training Place : </p>
-              <Input />
-            </InputBlock>
-
-            <InputBlock>
-              <p>Personal Equipment Requirements : </p>
-              <Input />
-            </InputBlock>
-
-            <InputBlock>
-              <p>strategic formation : </p>
-              <Select>
-                <option>442</option>
-                <option>4231</option>
-                <option>3442</option>
-                <option>4321</option>
-                <option>433</option>
-                <option>3421</option>
-              </Select>
-            </InputBlock>
-          </div>
-
-          <ButtonBlock>
-            <CustomButton onClick={handleSubSaving}>임시저장</CustomButton>
-            <CustomButton color="red" onClick={handleCreateTeam}>
-              만들기
-            </CustomButton>
-          </ButtonBlock>
-        </RecruitmentBlock> */}
       </MainBlock>
 
       <CurrentStep

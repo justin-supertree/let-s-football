@@ -12,6 +12,7 @@ type Props = {
 };
 
 const CreateProgressBlock = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,6 +22,7 @@ const CreateProgressBlock = styled.div`
   font-family: Novarese;
   color: white;
   padding: 32px;
+  z-index: 100;
 `;
 
 const LeftButton = styled(Button)`
@@ -43,12 +45,14 @@ const StepButtonBlock = styled.div<{ isCurrent: boolean }>`
 `;
 
 const PaginationBlock = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   padding-bottom: 35px;
   gap: 12px;
+  z-index: 100;
 `;
 
 const CurrentStep = ({
