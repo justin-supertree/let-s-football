@@ -63,6 +63,13 @@ const TeamGraphBlock = styled.div`
   border-radius: 24px;
   background-color: black;
   /* opacity: 0.7; */
+
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
 `;
 
 const InitialState = {
@@ -76,21 +83,43 @@ const InitialState = {
 
 const myDemoData = [
   {
-    teamName: 'Justin',
+    id: 1,
+    teamName: 'Team Justin',
     footballType: 'Full',
-    teamMember: 11,
+    teamMember: 5,
     trainingPlace: '홍대',
     formation: '433',
+    image: '',
   },
 ];
 
-const recruitDemodata = [
+const recruitDemoData = [
   {
-    teamName: 'Justin',
+    id: 1,
+    teamName: 'Demo Team',
     footballType: 'Full',
-    teamMember: 11,
+    teamMember: 5,
     trainingPlace: '홍대',
     formation: '433',
+    image: '',
+  },
+  {
+    id: 2,
+    teamName: 'Team Justin',
+    footballType: 'Full',
+    teamMember: 5,
+    trainingPlace: '홍대',
+    formation: '433',
+    image: '',
+  },
+  {
+    id: 3,
+    teamName: 'Team Justin',
+    footballType: 'Full',
+    teamMember: 5,
+    trainingPlace: '홍대',
+    formation: '433',
+    image: '',
   },
 ];
 
@@ -109,8 +138,15 @@ const Football: NextPageWithLayout = () => {
             </CategoryTitleBlock>
 
             <TeamGraphBlock>
-              {recruitDemodata ? (
-                <GroupTicket />
+              {recruitDemoData ? (
+                <div>
+                  {recruitDemoData.map((info, index) => (
+                    <GroupTicket
+                      data={info}
+                      key={`football-${info.teamName}-${index}`}
+                    />
+                  ))}
+                </div>
               ) : (
                 <p>현재까지 팀원을 찾는 모임이 없습니다.</p>
               )}
@@ -130,7 +166,14 @@ const Football: NextPageWithLayout = () => {
 
             <TeamGraphBlock>
               {myDemoData ? (
-                <GroupTicket />
+                <div>
+                  {myDemoData.map((info, index) => (
+                    <GroupTicket
+                      data={info}
+                      key={`my-${info.teamName}-${index}`}
+                    />
+                  ))}
+                </div>
               ) : (
                 <p>현재까지 만든팀이 없습니다.</p>
               )}

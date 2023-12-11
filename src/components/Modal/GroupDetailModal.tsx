@@ -2,10 +2,20 @@ import styled from '@emotion/styled';
 
 import Button from '../Button';
 import Modal from './InfoModal';
+import { useRouter } from 'next/router';
 
 type Props = {
   title: string;
   desc: string;
+  data?: {
+    id: number;
+    teamName: string;
+    footballType: string;
+    teamMember: number;
+    trainingPlace: string;
+    formation: string;
+    image: string;
+  };
   isOpen: boolean;
   handleOpenModal: () => void;
 };
@@ -103,11 +113,20 @@ const InfoDetailBlock = styled.div`
   padding: 6px 0;
 `;
 
-const EnterButton = styled(Button)`
-  width: 100%;
-`;
+const GroupDetailModal = ({
+  data,
+  title,
+  desc,
+  isOpen,
+  handleOpenModal,
+}: Props) => {
+  const router = useRouter();
 
-const GroupDetailModal = ({ title, desc, isOpen, handleOpenModal }: Props) => {
+  const handleRouteDetail = () => {
+    handleOpenModal();
+    router.push(`/activities/football/detail/${data?.id}`);
+  };
+
   return (
     <Modal isOpen={isOpen} handleOpenModal={handleOpenModal}>
       <Container>
@@ -120,18 +139,23 @@ const GroupDetailModal = ({ title, desc, isOpen, handleOpenModal }: Props) => {
 
             <GroupInfo>
               <InfoDetailBlock>
+                <p>Ticket Id : </p>
+                <p>{data && data.id}</p>
+              </InfoDetailBlock>
+
+              <InfoDetailBlock>
                 <p>Team Name : </p>
-                <p>aaa</p>
+                <p>{data && data.teamName}</p>
               </InfoDetailBlock>
 
               <InfoDetailBlock>
                 <p>Members : </p>
-                <p>(1/10)</p>
+                <p>{data && `${data.teamMember}/11`}</p>
               </InfoDetailBlock>
 
               <InfoDetailBlock>
                 <p>Formation : </p>
-                <p>433</p>
+                <p>{data && data.formation}</p>
               </InfoDetailBlock>
             </GroupInfo>
           </DetailInfoBlock>
@@ -147,7 +171,12 @@ const GroupDetailModal = ({ title, desc, isOpen, handleOpenModal }: Props) => {
             취소
           </DoubleButton>
 
-          <DoubleButton isLeft={true} size="sm" variant="ghost">
+          <DoubleButton
+            onClick={handleRouteDetail}
+            isLeft={true}
+            size="sm"
+            variant="ghost"
+          >
             참여하기
           </DoubleButton>
         </ButtonBox>

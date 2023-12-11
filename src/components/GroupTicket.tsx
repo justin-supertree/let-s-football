@@ -5,13 +5,25 @@ import Button from '@/components/Button';
 import { useState } from 'react';
 import GroupDetailModal from './Modal/GroupDetailModal';
 
+type Props = {
+  data?: {
+    id: number;
+    teamName: string;
+    footballType: string;
+    teamMember: number;
+    trainingPlace: string;
+    formation: string;
+    image: string;
+  };
+};
+
 const GroupBlock = styled.div`
   width: 300px;
-  height: 450px;
+  min-height: 450px;
   padding: 1rem;
   border: 1px solid;
   border-radius: 1rem;
-  background-color: wheat;
+  background-color: white;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 
@@ -49,7 +61,7 @@ const EnterButton = styled(Button)`
   width: 100%;
 `;
 
-const GroupTicket = () => {
+const GroupTicket = ({ data }: Props) => {
   const [isDetailModal, setIsDetailModal] = useState(false);
   const handleDetailModalOpen = () => {
     setIsDetailModal(!isDetailModal);
@@ -61,18 +73,23 @@ const GroupTicket = () => {
 
         <GroupInfo>
           <InfoDetailBlock>
+            <p>Ticket Id : </p>
+            <p>{data && data.id}</p>
+          </InfoDetailBlock>
+
+          <InfoDetailBlock>
             <p>Team Name : </p>
-            <p>aaa</p>
+            <p>{data && data.teamName}</p>
           </InfoDetailBlock>
 
           <InfoDetailBlock>
             <p>Members : </p>
-            <p>(1/10)</p>
+            <p>{data && `${data.teamMember}/11`}</p>
           </InfoDetailBlock>
 
           <InfoDetailBlock>
             <p>Formation : </p>
-            <p>433</p>
+            <p>{data && data.formation}</p>
           </InfoDetailBlock>
 
           <EnterButton variant="ghost">입장</EnterButton>
@@ -82,6 +99,7 @@ const GroupTicket = () => {
       {isDetailModal && (
         <GroupDetailModal
           isOpen={isDetailModal}
+          data={data}
           title="Detail Info"
           desc="모임의 상제 정보입니다."
           handleOpenModal={() => setIsDetailModal(false)}
