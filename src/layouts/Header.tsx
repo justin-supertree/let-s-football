@@ -170,7 +170,11 @@ const Header = () => {
             </LogoBlock>
           </Link>
           <Link href="/activity-hub">
-            <LogoBlock>Activities</LogoBlock>
+            <LogoBlock>종목</LogoBlock>
+          </Link>
+
+          <Link href={`/activities/football`}>
+            <LogoBlock>팀현황</LogoBlock>
           </Link>
         </RoutingBlock>
 

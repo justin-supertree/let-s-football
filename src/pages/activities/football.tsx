@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
 import styled from '@emotion/styled';
 import { NextPageWithLayout } from '@/types/next-page';
-import { Input, Select } from '@chakra-ui/react';
+import { Input } from '@chakra-ui/react';
+import Link from 'next/link';
 
 import Layout from '@/layouts';
 import Button from '@/components/Button';
+import GroupTicket from '@/components/GroupTicket';
 
 import FourFourTwo from '@/images/football-442.png';
-import Link from 'next/link';
 
 const Container = styled.div`
   color: white;
@@ -41,7 +41,6 @@ const CategoryBlock = styled.div`
   min-height: 40vh;
   padding: 36px;
   margin-bottom: 36px;
-  border: 1px solid;
 `;
 
 const CategoryTitleBlock = styled.div`
@@ -53,6 +52,7 @@ const CategoryTitleBlock = styled.div`
 
 const SearchTeamInput = styled(Input)`
   width: 40%;
+  max-width: 350px;
 `;
 
 const TeamGraphBlock = styled.div`
@@ -62,44 +62,83 @@ const TeamGraphBlock = styled.div`
   padding: 36px;
   border-radius: 24px;
   background-color: black;
-  opacity: 0.7;
+  /* opacity: 0.7; */
 `;
 
+const InitialState = {
+  teamName: '',
+  footballType: '',
+  teamMember: 0,
+  trainingPlace: '',
+  equipment: '',
+  formation: '',
+};
+
+const myDemoData = [
+  {
+    teamName: 'Justin',
+    footballType: 'Full',
+    teamMember: 11,
+    trainingPlace: '홍대',
+    formation: '433',
+  },
+];
+
+const recruitDemodata = [
+  {
+    teamName: 'Justin',
+    footballType: 'Full',
+    teamMember: 11,
+    trainingPlace: '홍대',
+    formation: '433',
+  },
+];
+
 const Football: NextPageWithLayout = () => {
-  const [recruitmentInfos, setRecruitmentInfos] = useState({
-    teamName: '',
-    footballType: '',
-    teamMember: 0,
-    trainingPlace: '',
-    equipment: '',
-    fotmation: '',
-  });
+  const [recruitmentInfos, setRecruitmentInfos] = useState(InitialState);
 
   return (
-    <Container>
-      <Title>Welcome to FootBall Stadium</Title>
-      <MainBlock>
-        <CategoryBlock>
-          <CategoryTitleBlock>
-            <p>내가만든 모임</p>
-            <Link href="/manager-locker">
-              <Button>Create Team</Button>
-            </Link>
-          </CategoryTitleBlock>
+    <>
+      <Container>
+        <Title>Welcome to FootBall Stadium</Title>
+        <MainBlock>
+          <CategoryBlock>
+            <CategoryTitleBlock>
+              <p>팀원을 찾고있는 모임</p>
+              <SearchTeamInput placeholder="찾고 싶은 모임이름을 검색해주세요." />
+            </CategoryTitleBlock>
 
-          <TeamGraphBlock>현재까지 만든팀이 없습니다.</TeamGraphBlock>
-        </CategoryBlock>
+            <TeamGraphBlock>
+              {recruitDemodata ? (
+                <GroupTicket />
+              ) : (
+                <p>현재까지 팀원을 찾는 모임이 없습니다.</p>
+              )}
+            </TeamGraphBlock>
+          </CategoryBlock>
 
-        <CategoryBlock>
-          <CategoryTitleBlock>
-            <p>팀원을 찾고있는 모임</p>
-            <SearchTeamInput placeholder="찾고 싶은 모임이름을 검색해주세요." />
-          </CategoryTitleBlock>
+          <CategoryBlock>
+            <CategoryTitleBlock>
+              <p>내가만든 모임</p>
 
-          <TeamGraphBlock>현재까지 팀원을 찾는 모임이 없습니다.</TeamGraphBlock>
-        </CategoryBlock>
-      </MainBlock>
-    </Container>
+              <SearchTeamInput placeholder="찾고 싶은 모임이름을 검색해주세요." />
+
+              <Link href="/manager-locker">
+                <Button>Create Team</Button>
+              </Link>
+            </CategoryTitleBlock>
+
+            <TeamGraphBlock>
+              {myDemoData ? (
+                <GroupTicket />
+              ) : (
+                <p>현재까지 만든팀이 없습니다.</p>
+              )}
+            </TeamGraphBlock>
+          </CategoryBlock>
+        </MainBlock>
+      </Container>
+    </>
   );
 };
 
