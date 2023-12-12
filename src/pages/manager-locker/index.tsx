@@ -173,13 +173,13 @@ const FootBallTypeImage = styled.div`
 `;
 
 const PlayerInfoBlock = styled.div`
-  width: 50%;
+  width: 40%;
   height: 100%;
   padding: 2rem;
 `;
 
 const FieldTableBlock = styled.div`
-  width: 400px;
+  width: 500px;
   height: 100%;
 `;
 
