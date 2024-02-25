@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import type { NextPageWithLayout } from '@/types/next-page';
 import styled from '@emotion/styled';
@@ -6,6 +6,7 @@ import { Button, Input } from '@chakra-ui/react';
 
 import Layout from '@/layouts';
 import GroupTicket from '@/components/GroupTicket';
+import CardSlider from '@/components/CardSlider';
 
 const Container = styled.div`
   max-width: 1440px;
@@ -42,12 +43,38 @@ const BannerWrapper = styled.div`
 `;
 
 const BannerBlock = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
   width: 65%;
   height: 100%;
   color: white;
+  overflow: hidden;
+
+  &.slick-slide {
+    &.slick-active {
+      &.slick-current {
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        background-color: antiquewhite;
+      }
+    }
+  }
+
+  &.slick-dots {
+    &.slick-active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+
+      &button::before {
+        color: #c1c1c1;
+      }
+    }
+    button::before {
+      color: #e9e9e9;
+    }
+  }
 `;
 
 const RealTimeBlock = styled.div`
@@ -162,7 +189,23 @@ const recruitDemoData = [
   },
 ];
 
+const BannerContents = styled.div`
+  width: 100%;
+  height: 628px;
+
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: yellowgreen;
+  }
+`;
+
 const Football: NextPageWithLayout = () => {
+  const [bannerData, setBannerData] = useState([1, 2, 3, 4, 5]);
+
   return (
     <>
       <Container>
@@ -170,7 +213,16 @@ const Football: NextPageWithLayout = () => {
         <MainBlock>
           <BannerContainer>
             <BannerWrapper>
-              <BannerBlock>Banner Area</BannerBlock>
+              <BannerBlock>
+                <CardSlider>
+                  {bannerData.map((info, index) => (
+                    <BannerContents key={index}>
+                      <div>{info} banner</div>
+                    </BannerContents>
+                  ))}
+                </CardSlider>
+              </BannerBlock>
+
               <RealTimeBlock>Real Time</RealTimeBlock>
             </BannerWrapper>
           </BannerContainer>
