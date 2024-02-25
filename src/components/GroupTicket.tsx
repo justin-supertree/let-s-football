@@ -1,9 +1,6 @@
+import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import Image from 'next/image';
-
-import Button from '@/components/Button';
-import { useState } from 'react';
-import GroupDetailModal from './Modal/GroupDetailModal';
+import { Button } from '@chakra-ui/react';
 
 type Props = {
   data?: {
@@ -17,19 +14,19 @@ type Props = {
   };
 };
 
-const GroupBlock = styled.div`
-  width: 300px;
-  min-height: 450px;
+const GroupBlock = styled.div<{ isOpenDetail: boolean }>`
+  width: 100%;
+  height: ${({ isOpenDetail }) => (isOpenDetail ? '350px' : 'auto')};
   padding: 1rem;
-  border: 1px solid;
-  border-radius: 1rem;
-  background-color: white;
-  cursor: pointer;
+  border: 1px solid white;
+  background-color: ${({ isOpenDetail }) =>
+    isOpenDetail ? 'lightgray' : 'white'};
   transition: all 0.2s ease-in-out;
+  cursor: pointer;
 
   &:hover {
-    border: 1px solid red;
-    opacity: 0.9;
+    border-bottom: 1px solid red;
+    opacity: 0.6;
   }
 `;
 
@@ -40,37 +37,41 @@ const GroupImage = styled.div`
   width: 250px;
   height: 250px;
   border-radius: 1rem;
-  background-color: lightgray;
   margin: auto;
 `;
 
 const GroupInfo = styled.div`
-  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-size: 16px;
-  color: black;
+  padding: 6px 0;
 `;
 
 const InfoDetailBlock = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  padding: 6px 0;
 `;
 
 const EnterButton = styled(Button)`
-  width: 100%;
+  width: 100px;
 `;
 
 const GroupTicket = ({ data }: Props) => {
-  const [isDetailModal, setIsDetailModal] = useState(false);
-  const handleDetailModalOpen = () => {
-    setIsDetailModal(!isDetailModal);
+  const [isContentDetail, setIsContentDetail] = useState(false);
+
+  const handleContentDetailOpen = () => {
+    setIsContentDetail((prevState) => !prevState);
+    console.log('handleContentDetailOpen >', isContentDetail);
   };
+
   return (
     <>
-      <GroupBlock onClick={handleDetailModalOpen}>
-        <GroupImage>Image</GroupImage>
-
+      <GroupBlock
+        isOpenDetail={isContentDetail}
+        onClick={handleContentDetailOpen}
+      >
         <GroupInfo>
           <InfoDetailBlock>
             <p>Ticket Id : </p>
@@ -92,11 +93,11 @@ const GroupTicket = ({ data }: Props) => {
             <p>{data && data.formation}</p>
           </InfoDetailBlock>
 
-          <EnterButton variant="ghost">입장</EnterButton>
+          <EnterButton variant="solid">입장</EnterButton>
         </GroupInfo>
       </GroupBlock>
 
-      {isDetailModal && (
+      {/* {isDetailModal && (
         <GroupDetailModal
           isOpen={isDetailModal}
           data={data}
@@ -104,7 +105,7 @@ const GroupTicket = ({ data }: Props) => {
           desc="모임의 상제 정보입니다."
           handleOpenModal={() => setIsDetailModal(false)}
         />
-      )}
+      )} */}
     </>
   );
 };

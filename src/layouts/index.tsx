@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import Head from 'next/head';
 
@@ -12,13 +12,18 @@ type Props = {
 const Container = styled.div`
   width: 100%;
   height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const MainBlock = styled.div`
   width: 100%;
   min-height: 60vh;
-  /* height: 100vh; */
-  background-color: #091442;
 `;
 
 const Layout = ({ children }: Props) => {

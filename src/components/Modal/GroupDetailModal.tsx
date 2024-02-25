@@ -24,12 +24,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  min-width: 450px;
+  min-width: 700px;
   height: 100%;
-  border-radius: 1rem;
+  min-height: 400px;
   overflow: hidden;
   overflow-y: auto;
-  background-color: lightskyblue;
+  background-color: beige;
 `;
 
 const ButtonBox = styled.div`

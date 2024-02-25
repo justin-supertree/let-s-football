@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-import styled from '@emotion/styled';
-import { NextPageWithLayout } from '@/types/next-page';
-import { Input } from '@chakra-ui/react';
+import React from 'react';
 import Link from 'next/link';
+import type { NextPageWithLayout } from '@/types/next-page';
+import styled from '@emotion/styled';
+import { Button, Input } from '@chakra-ui/react';
 
 import Layout from '@/layouts';
-import Button from '@/components/Button';
 import GroupTicket from '@/components/GroupTicket';
 
-import FourFourTwo from '@/images/football-442.png';
-
 const Container = styled.div`
+  max-width: 1440px;
+  margin: auto;
   color: white;
 `;
 
@@ -20,11 +19,45 @@ const MainBlock = styled.div`
   justify-content: flex-start;
   flex-direction: column;
   min-height: 70vh;
-  font-family: Novarese;
   font-size: 32px;
   font-style: normal;
   font-weight: 800;
+  color: black;
+`;
+
+const BannerContainer = styled.div`
+  width: 100%;
+  height: 700px;
+  padding: 36px;
+`;
+
+const BannerWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background-color: black;
+`;
+
+const BannerBlock = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 65%;
+  height: 100%;
   color: white;
+`;
+
+const RealTimeBlock = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35%;
+  height: 100%;
+  border-radius: 0 12px 12px 0;
+  background-color: bisque;
 `;
 
 const Title = styled.p`
@@ -33,6 +66,7 @@ const Title = styled.p`
   font-weight: 800;
   padding: 20px 0;
   text-align: center;
+  color: black;
 `;
 
 const CategoryBlock = styled.div`
@@ -50,27 +84,32 @@ const CategoryTitleBlock = styled.div`
   margin-bottom: 32px;
 `;
 
+const SearchWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+`;
+
 const SearchTeamInput = styled(Input)`
   width: 40%;
   max-width: 350px;
+  min-width: 250px;
 `;
 
 const TeamGraphBlock = styled.div`
   position: relative;
   width: 100%;
-  min-height: 200px;
-  padding: 36px;
-  border-radius: 24px;
-  background-color: black;
-  /* opacity: 0.7; */
 
   & > div {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 1rem;
+    flex-direction: column;
   }
 `;
+
+const CustomButton = styled(Button)``;
 
 const InitialState = {
   teamName: '',
@@ -124,13 +163,18 @@ const recruitDemoData = [
 ];
 
 const Football: NextPageWithLayout = () => {
-  const [recruitmentInfos, setRecruitmentInfos] = useState(InitialState);
-
   return (
     <>
       <Container>
         <Title>Welcome to FootBall Stadium</Title>
         <MainBlock>
+          <BannerContainer>
+            <BannerWrapper>
+              <BannerBlock>Banner Area</BannerBlock>
+              <RealTimeBlock>Real Time</RealTimeBlock>
+            </BannerWrapper>
+          </BannerContainer>
+
           <CategoryBlock>
             <CategoryTitleBlock>
               <p>팀원을 찾고있는 모임</p>
@@ -157,11 +201,13 @@ const Football: NextPageWithLayout = () => {
             <CategoryTitleBlock>
               <p>내가만든 모임</p>
 
-              <SearchTeamInput placeholder="찾고 싶은 모임이름을 검색해주세요." />
+              <SearchWrapper>
+                <SearchTeamInput placeholder="찾고 싶은 모임이름을 검색해주세요." />
 
-              <Link href="/manager-locker">
-                <Button>Create Team</Button>
-              </Link>
+                <Link href="/manager-locker">
+                  <CustomButton>Create Team</CustomButton>
+                </Link>
+              </SearchWrapper>
             </CategoryTitleBlock>
 
             <TeamGraphBlock>

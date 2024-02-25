@@ -14,14 +14,16 @@ import RedirectModal from '../components/Modal/RedirectModal';
 import MainLogo from '@/images/main-logo.png';
 
 const Container = styled.div`
+  position: sticky;
   display: flex;
   align-items: center;
   justify-content: space-between;
   z-index: 99;
   width: 100%;
   height: 100px;
+  top: 0;
   padding: 0 16px;
-  background-color: #0e1e5b;
+  background-color: white;
 `;
 
 const RoutingBlock = styled.div`
@@ -38,7 +40,8 @@ const LogoBlock = styled.div`
   width: 120px;
   height: 45px;
   font-size: 24px;
-  color: aqua;
+  font-weight: 900;
+  color: black;
   transition: 0.2s all ease-in-out;
 
   & > img {

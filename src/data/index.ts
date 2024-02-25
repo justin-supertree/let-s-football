@@ -78,9 +78,34 @@ const formationData = {
   ],
 };
 
+const footballTypeData = [
+  { type: 'full', name: '풀 코트 축구' },
+  { type: 'half', name: '하프 코트 축구' },
+  { type: 'futsal', name: '풋살' },
+  { type: 'educate', name: '축구강습' },
+];
+
+const formationOptions = [
+  'Custom',
+  '3142',
+  '343',
+  '352',
+  '41212',
+  '4141',
+  '4231',
+  '424',
+  '433',
+  '4411',
+  '442',
+  '532',
+  '541',
+];
+
 export {
   forwardPositionData,
   midPositionData,
   defencePositionData,
   formationData,
+  footballTypeData,
+  formationOptions,
 };

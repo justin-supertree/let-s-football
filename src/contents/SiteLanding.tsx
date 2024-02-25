@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import styled from '@emotion/styled';
-import { useRouter } from 'next/router';
-import { Input } from '@chakra-ui/react';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import styled from '@emotion/styled';
+import { Input } from '@chakra-ui/react';
+import { AnimatePresence } from 'framer-motion';
 
 import palette from '@/styles/palette';
 
 import { IconGoogle, IconKakao } from '@/images';
+
 import Button from '@/components/Button';
 import BaseModal from '@/components/Modal/BaseModal';
-import { AnimatePresence } from 'framer-motion';
 
 const Container = styled.div`
   position: relative;
   color: white;
   height: 100%;
-  font-family: Novarese;
   font-size: 35px;
   font-weight: 800;
   background-color: #091442;
+  overflow-y: scroll;
 `;
 
 const Section = styled.section`

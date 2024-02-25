@@ -8,6 +8,8 @@ import { NextPageWithLayout } from '@/types/next-page';
 import Layout from '@/layouts';
 import Button from '@/components/Button';
 
+import { footballTypeData, formationOptions } from '@/data';
+
 import CurrentStep from '@/components/CurrentStep';
 import FormationTable from '@/components/\bFormationTable';
 import FieldOne from '@/images/field-1.jpg';
@@ -70,25 +72,12 @@ const RecruitmentBlock = styled.div`
   justify-content: center;
   width: 100%;
   height: 640px;
-  border: 1px solid lightgreen;
 `;
 
-const InputBlock = styled.div`
-  margin-bottom: 15px;
-
-  & > p {
-    font-size: 16px;
-    font-weight: 800;
-    margin-bottom: 12px;
-  }
-`;
-
-const ButtonBlock = styled.div`
+const MapContainer = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  gap: 12px;
-  margin-top: 36px;
 `;
 
 const InformationBlock = styled.div`
@@ -140,13 +129,6 @@ const initialProps = {
   equipment: '',
   fotmation: '',
 };
-
-const footballTypeData = [
-  { type: 'full', name: '풀 코트 축구' },
-  { type: 'half', name: '하프 코트 축구' },
-  { type: 'futsal', name: '풋살' },
-  { type: 'educate', name: '축구강습' },
-];
 
 const FootBallTypeBlock = styled.div`
   display: flex;
@@ -209,6 +191,13 @@ const OverLayImage = styled(Image)`
   opacity: 0.6;
 `;
 
+const KakaoMapBlock = styled.div`
+  width: 900px;
+  height: 500px;
+  margin: auto;
+  background-color: white;
+`;
+
 const backgroundImages = [FieldOne, FieldTwo, FieldThree];
 
 const ManagerLocker: NextPageWithLayout = () => {
@@ -225,21 +214,6 @@ const ManagerLocker: NextPageWithLayout = () => {
     Contact: { value: '', type: '', result: false },
   });
   const options = [11, 10, 9, 8, 7, 6, 5, 4];
-  const formationOptions = [
-    'Custom',
-    '3142',
-    '343',
-    '352',
-    '41212',
-    '4141',
-    '4231',
-    '424',
-    '433',
-    '4411',
-    '442',
-    '532',
-    '541',
-  ];
 
   // const updateCreateData = useCallback((key, value) => {
   //   setCreateData((prevData) => ({
@@ -320,14 +294,15 @@ const ManagerLocker: NextPageWithLayout = () => {
             <SubTitle>What Football type Do you find?</SubTitle>
 
             <FootBallTypeBlock>
-              {footballTypeData.map((info, index) => (
-                <FootBallTypeImage
-                  onClick={() => handleSelectFootballType(info.name)}
-                  key={`${info.type}-${index}`}
-                >
-                  {info.name}
-                </FootBallTypeImage>
-              ))}
+              {footballTypeData &&
+                footballTypeData.map((info, index) => (
+                  <FootBallTypeImage
+                    onClick={() => handleSelectFootballType(info.name)}
+                    key={`${info.type}-${index}`}
+                  >
+                    {info.name}
+                  </FootBallTypeImage>
+                ))}
             </FootBallTypeBlock>
           </InformationBlock>
         )}
@@ -335,8 +310,9 @@ const ManagerLocker: NextPageWithLayout = () => {
         {step === 2 && (
           <InformationBlock>
             <SubTitle>집결 장소</SubTitle>
+
             <RecruitmentBlock>
-              <PlayerInfoBlock>kakao map</PlayerInfoBlock>
+              <KakaoMapBlock>a</KakaoMapBlock>
             </RecruitmentBlock>
           </InformationBlock>
         )}
@@ -365,15 +341,14 @@ const ManagerLocker: NextPageWithLayout = () => {
                     value={selectedFormation}
                     onChange={handleSelectFormationChange}
                   >
-                    {formationOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
+                    {formationOptions &&
+                      formationOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
                   </Select>
                 </div>
-
-                <div></div>
               </PlayerInfoBlock>
 
               <FieldTableBlock>
