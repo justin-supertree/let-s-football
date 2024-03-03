@@ -199,7 +199,7 @@ const SiteLanding = () => {
       (async () => {
         const res = await kakaoUserLogin({
           code: codeString,
-          redirect: 'https://localhost:3000',
+          redirect: '',
         });
         console.log('res >', res);
 
