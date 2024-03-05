@@ -38,6 +38,7 @@ export const socialLogin = async ({ token, snsType }: LoginProps) => {
     }
   }
 };
+
 export const kakaoUserLogin = async ({
   code,
   redirect,

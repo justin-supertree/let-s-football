@@ -13,6 +13,7 @@ import { IconGoogle, IconKakao } from '@/images';
 
 import Button from '@/components/Button';
 import BaseModal from '@/components/Modal/BaseModal';
+import { ResponseError } from '@/types/fetch';
 
 const Container = styled.div`
   position: relative;
@@ -175,53 +176,27 @@ const SiteLanding = () => {
     alert('click scroll button');
   };
 
-  const handleKakaoLogin = async () => {
-    try {
-      console.log('!');
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
     if (code) {
-      console.log('code >', JSON.stringify(code));
       const codeString = JSON.stringify(code);
-      // try {
-      //   kakaoUserLogin({
-      //     code,
-      //     redirect: 'https://localhost:3000',
-      //   });
-      // } catch (error) {
-      //   console.log(error);
-      // }
 
       (async () => {
-        const res = await kakaoUserLogin({
-          code: codeString,
-          redirect: '',
-        });
-        console.log('res >', res);
+        try {
+          const res = await signIn('social-credentials', {
+            code: codeString,
+            redirect: false,
+          });
 
-        // if (res?.error && !res.ok) {
-        //   setIsError(true);
-        //   return;
-        // }
+          if (res?.error && !res.ok) {
+            setIsError(true);
+            return;
+          }
+        } catch (error) {
+          if (error instanceof ResponseError) {
+            throw new Error(error.message);
+          }
+        }
       })();
-
-      // (async () => {
-      //   alert('sign in 접근전 !');
-
-      //   const res = await signIn('social-credentials', {
-      //     code,
-      //     redirect: false,
-      //   });
-
-      //   if (res?.error && !res.ok) {
-      //     setIsError(true);
-      //     return;
-      //   }
-      // })();
     }
   }, [code]);
 
@@ -282,11 +257,6 @@ const SiteLanding = () => {
               </EmailLoginBlock>
 
               <SocialLoginButtonBlock>
-                {/* <a
-                  href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_URL}&response_type=code`}
-                > */}
-                {/* // https://kauth.kakao.com/oauth/authorize?client_id=a22d2982d2b7327e97be5ed6b847b42b&response_type=code&redirect_uri=https://maestro-api.patkid.kr/health */}
-
                 <a
                   href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_URL}&response_type=code`}
                 >
@@ -297,18 +267,6 @@ const SiteLanding = () => {
                     <span>{text.kor.kakao}</span>
                   </SocialLoginButton>
                 </a>
-                {/* </a> */}
-
-                {/* <a
-                  href={`https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&include_granted_scopes=true&response_type=code&client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_URL}/callback/google`}
-                >
-                  <SocialLoginButton>
-                    <figure>
-                      <IconGoogle />
-                    </figure>
-                    <span>{text.kor.google}</span>
-                  </SocialLoginButton>
-                </a> */}
               </SocialLoginButtonBlock>
             </div>
           )}

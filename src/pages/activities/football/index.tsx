@@ -38,8 +38,6 @@ const BannerWrapper = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
-  border-radius: 12px;
-  background-color: black;
 `;
 
 const BannerBlock = styled.div`
@@ -83,7 +81,6 @@ const RealTimeBlock = styled.div`
   justify-content: center;
   width: 35%;
   height: 100%;
-  border-radius: 0 12px 12px 0;
   background-color: bisque;
 `;
 
