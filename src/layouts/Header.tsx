@@ -7,9 +7,11 @@ import { Button } from '@chakra-ui/react';
 import { AnimatePresence } from 'framer-motion';
 import { signIn, signOut, useSession } from 'next-auth/react';
 
+import { userInformation } from '@/api/user';
+
 import BaseModal from '@/components/Modal/BaseModal';
-import LoginModal from '../components/Modal/LoginModal';
-import RedirectModal from '../components/Modal/RedirectModal';
+import LoginModal from '@/components/Modal/LoginModal';
+import RedirectModal from '@/components/Modal/RedirectModal';
 
 import MainLogo from '@/images/main-logo.png';
 
@@ -23,7 +25,7 @@ const Container = styled.div`
   height: 100px;
   top: 0;
   padding: 0 16px;
-  background-color: white;
+  background-color: transparent;
 `;
 
 const RoutingBlock = styled.div`
@@ -76,10 +78,6 @@ const HeaderLoginBlock = styled.div`
   text-overflow: ellipsis;
   text-align: right;
   font-feature-settings: 'case' on;
-
-  @media screen and (min-width: 1024px) {
-    max-width: 150px;
-  }
 `;
 
 const UserInfoText = styled.p`
@@ -87,7 +85,8 @@ const UserInfoText = styled.p`
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
-  color: var(--Color-White, #fff);
+  color: black;
+  white-space: pre;
 `;
 
 const WebSignButton = styled(Button)`
@@ -133,6 +132,7 @@ const Header = () => {
   const [isError, setIsError] = useState(false);
 
   const { data: session } = useSession();
+  const accessToken = session?.accessToken;
 
   const handleLogoutButton = () => {
     setIsConfirmLogout(false);
@@ -146,6 +146,21 @@ const Header = () => {
 
   const router = useRouter();
   const { code } = router.query;
+
+  const handleUserDataInfo = async () => {
+    if (accessToken) {
+      try {
+        console.log('handleUserDataInfo', accessToken);
+        await userInformation({ token: accessToken, snsType: 'kakao' });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    handleUserDataInfo();
+  }, []);
 
   useEffect(() => {
     if (code) {

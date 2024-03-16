@@ -8,15 +8,11 @@ import Layout from '@/layouts';
 import GroupTicket from '@/components/GroupTicket';
 import CardSlider from '@/components/CardSlider';
 
-const Container = styled.div`
-  max-width: 1440px;
-  margin: auto;
-  color: white;
-`;
+const Container = styled.div``;
 
 const MainBlock = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   flex-direction: column;
   min-height: 70vh;
@@ -27,23 +23,23 @@ const MainBlock = styled.div`
 `;
 
 const BannerContainer = styled.div`
-  width: 100%;
-  height: 700px;
-  padding: 36px;
-`;
-
-const BannerWrapper = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 100%;
+  max-width: 1440px;
+  height: 628px;
+
+  @media screen and (max-width: 1023px) {
+    display: block;
+    height: 100%;
+  }
 `;
 
 const BannerBlock = styled.div`
   position: relative;
-  width: 65%;
-  height: 100%;
+  width: 100%;
   color: white;
   overflow: hidden;
 
@@ -82,6 +78,11 @@ const RealTimeBlock = styled.div`
   width: 35%;
   height: 100%;
   background-color: bisque;
+
+  @media screen and (max-width: 1023px) {
+    width: 100%;
+    height: 450px;
+  }
 `;
 
 const Title = styled.p`
@@ -96,6 +97,7 @@ const Title = styled.p`
 const CategoryBlock = styled.div`
   position: relative;
   width: 100%;
+  max-width: 1440px;
   min-height: 40vh;
   padding: 36px;
   margin-bottom: 36px;
@@ -200,16 +202,26 @@ const BannerContents = styled.div`
   }
 `;
 
+const TopAreaBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: #f2f2f2;
+`;
+
 const Football: NextPageWithLayout = () => {
   const [bannerData, setBannerData] = useState([1, 2, 3, 4, 5]);
 
   return (
     <>
       <Container>
-        <Title>Welcome to FootBall Stadium</Title>
         <MainBlock>
-          <BannerContainer>
-            <BannerWrapper>
+          <TopAreaBlock>
+            <Title>Welcome to FootBall Stadium</Title>
+
+            <BannerContainer>
               <BannerBlock>
                 <CardSlider>
                   {bannerData.map((info, index) => (
@@ -221,8 +233,8 @@ const Football: NextPageWithLayout = () => {
               </BannerBlock>
 
               <RealTimeBlock>Real Time</RealTimeBlock>
-            </BannerWrapper>
-          </BannerContainer>
+            </BannerContainer>
+          </TopAreaBlock>
 
           <CategoryBlock>
             <CategoryTitleBlock>

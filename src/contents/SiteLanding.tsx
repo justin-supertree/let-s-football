@@ -14,6 +14,7 @@ import { IconGoogle, IconKakao } from '@/images';
 import Button from '@/components/Button';
 import BaseModal from '@/components/Modal/BaseModal';
 import { ResponseError } from '@/types/fetch';
+import { userInformation } from '@/api/user';
 
 const Container = styled.div`
   position: relative;
@@ -176,6 +177,22 @@ const SiteLanding = () => {
     alert('click scroll button');
   };
 
+  const handleLoginService = async () => {
+    try {
+      const userData = await userInformation({
+        token: session?.accessToken,
+        snsType: 'kakao',
+      });
+      console.log('userData >', userData);
+      if (userData) router.push('/activity-hub');
+      return userData;
+    } catch (error) {
+      if (error instanceof ResponseError) {
+        throw new Error(error.message);
+      }
+    }
+  };
+
   useEffect(() => {
     if (code) {
       const codeString = JSON.stringify(code);
@@ -273,9 +290,9 @@ const SiteLanding = () => {
 
           {session && (
             <div>
-              <Link href="/activity-hub">
-                <CustomButton variant="solid">Team Locker</CustomButton>
-              </Link>
+              <CustomButton variant="solid" onClick={handleLoginService}>
+                Team Locker
+              </CustomButton>
 
               <LogoutButton
                 variant="ghost"

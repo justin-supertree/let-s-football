@@ -2,7 +2,9 @@ import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 import { kakaoUserLogin } from '@/api/auth';
-import { ResponseError } from '@/types/fetch';
+import { userInformation } from '@/api/user';
+
+import type { PlayerInfo } from '@/types/partner';
 
 export default NextAuth({
   providers: [
@@ -24,8 +26,22 @@ export default NextAuth({
               redirect: 'http://localhost:3000',
             });
 
-            if (data && data) {
+            if (!data || !data.access_token) {
+              throw new Error('Failed to authenticate with Kakao');
+            }
+
+            const userData = await userInformation({
+              token: data.access_token,
+              snsType: 'kakao',
+            });
+
+            if (!userData) {
+              throw new Error('Failed to update sns user information');
+            }
+
+            if (data && userData) {
               return {
+                user: userData,
                 accessToken: data.access_token,
                 refreshToken: data.refresh_token,
                 tokenType: data.token_type,
@@ -34,12 +50,8 @@ export default NextAuth({
                 id: '',
               };
             }
-          } catch (e) {
-            console.log('error:', e);
-
-            if (e instanceof ResponseError) {
-              throw new Error(e.message);
-            }
+          } catch (error) {
+            throw new Error('Failed to authenticate');
           }
         }
         return null;
@@ -57,6 +69,7 @@ export default NextAuth({
         token.tokenType = user.tokenType;
         token.expiresIn = user.expiresIn;
         token.refreshTokenExpiresIn = user.refreshTokenExpiresIn;
+        token.user = user.user;
       }
       return token;
     },
@@ -66,6 +79,7 @@ export default NextAuth({
       session.tokenType = token.tokenType as string;
       session.expiresIn = token.expiresIn as string | number;
       session.refreshTokenExpiresIn = token.refreshTokenExpiresIn as string;
+      session.user = token.user as PlayerInfo;
       return session;
     },
   },
