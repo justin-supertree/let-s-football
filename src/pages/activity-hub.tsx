@@ -1,35 +1,32 @@
-import React, { useState } from 'react';
-import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { useQuery } from '@tanstack/react-query';
 import styled from '@emotion/styled';
-import { NextPageWithLayout } from '../types/next-page';
-// import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useDisclosure } from '@chakra-ui/react';
 
+import { getCategoryInformation } from '@/api/category';
+
+import type { NextPageWithLayout } from '@/types/next-page';
+
+import Image from '@/components/Image';
 import Layout from '@/layouts';
 import Button from '@/components/Button';
 import HoverVideoPlayer from '@/components/HoverVideoPlayer';
-// import CreateTeamModal from '@/components/Modal/CreateTeamModal';
-
-import EplLogo from '../../public/image/epl-logo-1.png';
-import EplPoster from '../../public/image/football-poster.png';
-import MlbLogo from '../../public/image/mlb-logo-1.png';
-import MlbPoster from '../../public/image/baseball-poster.png';
-import TennisLogo from '../../public/image/tennis-logo-1.png';
+import CreateTeamModal from '@/components/Modal/CreateTeamModal';
 import TennisPoster from '../../public/image/tennis-poster-4.png';
+import { getAnimate, setCategory } from '@/lib/util';
 
 const Container = styled.div`
+  display: flex;
+  justify-content: center;
   min-height: 100vh;
   height: 100%;
   font-family: Novarese;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
-  color: white;
   gap: 6px;
-`;
-
-const ContentsHubBlock = styled.div`
-  margin-bottom: 16px;
 `;
 
 const ContentsWrap = styled.div`
@@ -39,9 +36,9 @@ const ContentsWrap = styled.div`
   flex-direction: column;
   height: 150px;
   text-align: center;
+  margin-bottom: 16px;
 
   & > p {
-    margin-top: 48px;
     font-size: 54px;
     font-weight: 800;
     font-family: Novarese;
@@ -49,18 +46,18 @@ const ContentsWrap = styled.div`
 `;
 
 const ActiveBlock = styled.div`
+  max-width: 1440px;
   position: relative;
-  display: grid;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   padding: 102px 32px;
   gap: 24px;
-  grid-template-columns: repeat(2, 1fr);
+  /* grid-template-columns: repeat(2, 1fr);
 
   @media (max-width: 1024px) {
     grid-template-columns: repeat(1, 1fr);
-  }
+  } */
 
   /* 마우스 오버 시 동영상이 나타나도록 스타일 추가 */
   &:hover video {
@@ -78,7 +75,13 @@ const ActiveBlock = styled.div`
   }
 `;
 
-const ActivityContents = styled.div<{ isDisActive?: boolean }>`
+const ContentsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+const ActivityContents = styled(motion.div)<{ isTurnOnContents?: boolean }>`
   position: relative;
   display: flex;
   align-items: center;
@@ -87,16 +90,15 @@ const ActivityContents = styled.div<{ isDisActive?: boolean }>`
   gap: 24px;
   border-radius: 16px;
   padding: 24px;
-  background-color: ${({ isDisActive }) =>
-    isDisActive ? 'lightgray' : 'lightslategray'};
+  background-color: ${({ isTurnOnContents }) =>
+    isTurnOnContents ? 'lightgray' : 'lightslategray'};
   transition: 0.3s all ease-in-out;
   font-size: 44px;
   font-family: 600;
-  border: 2px solid;
   cursor: pointer;
 
   :hover {
-    opacity: ${({ isDisActive }) => !isDisActive && 0.8};
+    opacity: ${({ isTurnOnContents }) => !isTurnOnContents && 0.8};
     box-shadow: 0px 24px 32px -22px #0000001a;
   }
 `;
@@ -128,7 +130,6 @@ const MyTeamImageBlock = styled.div`
   align-items: center;
   justify-content: flex-end;
   flex-direction: column;
-
   height: 100%;
   border-radius: 12px;
   z-index: 11;
@@ -146,7 +147,7 @@ const MyTeamImageBlock = styled.div`
   }
 `;
 
-const VideoBlock = styled.div`
+const ImageBlock = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -155,19 +156,71 @@ const VideoBlock = styled.div`
   padding: 0;
   margin: 0;
   z-index: 0;
+  border-radius: 12px;
+  background-color: white;
+  overflow: hidden;
 `;
+
+// const VideoBlock = styled.div`
+//   position: absolute;
+//   width: 100%;
+//   height: 100%;
+//   left: 0;
+//   top: 0;
+//   padding: 0;
+//   margin: 0;
+//   z-index: 0;
+// `;
 
 const SelectButton = styled(Button)`
   z-index: 10;
 `;
 
+const initialCategory = [
+  {
+    id: 1,
+    name: 'football',
+    isOpen: false,
+  },
+  {
+    id: 2,
+    name: 'baseball',
+    isOpen: false,
+  },
+  {
+    id: 3,
+    name: 'tennis',
+    isOpen: false,
+  },
+];
+
 const ActivityHub: NextPageWithLayout = () => {
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const [isTurnOnContents, setIsTurnOnContents] = useState(false);
   const [hoveredVideos, setHoveredVideos] = useState<string[]>([]);
 
   const router = useRouter();
 
-  const handleSelectContents = () => {
-    router.push('/activities/football');
+  const {
+    isOpen: isCreateOpen,
+    onOpen: onCreateOpen,
+    onClose: onCreateClose,
+  } = useDisclosure();
+
+  const { isLoading, isError, data } = useQuery(
+    ['getChartData'],
+    () => getCategoryInformation(),
+    {
+      refetchOnWindowFocus: false,
+      keepPreviousData: true,
+    },
+  );
+
+  const handleSelectContents = (title: string) => () => {
+    if (title) {
+      setCategory(title);
+      router.push('/activities/football');
+    }
   };
 
   const handleMouseEnter = (sports: string) => {
@@ -178,87 +231,63 @@ const ActivityHub: NextPageWithLayout = () => {
     setHoveredVideos((prev) => prev.filter((item) => item !== sports));
   };
 
-  const info = [
-    {
-      id: 1,
-      name: 'football',
-      img: EplLogo,
-      video: '/videos/football-video-1.mp4',
-      poster: EplPoster,
-      isDisActive: false,
-    },
-    {
-      id: 2,
-      name: 'baseball',
-      img: MlbLogo,
-      video: '/videos/baseball-video-1.mp4',
-      poster: MlbPoster,
-      isDisActive: true,
-    },
-    {
-      id: 3,
-      name: 'tennis',
-      img: TennisLogo,
-      video: '/videos/tennis-video-1.mp4',
-      poster: MlbPoster,
-      isDisActive: true,
-    },
-  ];
+  useEffect(() => {
+    console.log('data >', data);
+  }, [data]);
 
   return (
     <Container>
-      <ContentsHubBlock>
+      <ActiveBlock>
         <ContentsWrap>
           <p>
             If you fail to prepare, you&apos;ve prepared to fail. - Mark Spitz
           </p>
         </ContentsWrap>
-      </ContentsHubBlock>
 
-      <ActiveBlock>
-        {info.map((info, index) => (
-          <ActivityContents
-            key={`${info.name}-${index}`}
-            isDisActive={info.isDisActive}
-            onMouseEnter={() => handleMouseEnter(info.name)}
-            onMouseLeave={() => handleMouseLeave(info.name)}
-          >
-            <MyTeamImageBlock>
-              <Image src={info.img} alt={`${info.name}`} />
-            </MyTeamImageBlock>
+        <ContentsWrapper>
+          {data?.list.map((info, index) => (
+            <ActivityContents
+              key={`${info.title}-${index}`}
+              isTurnOnContents={isTurnOnContents}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ease: 'easeOut', delay: 0.5 * index }}
+            >
+              <MyTeamImageBlock>
+                <Image src={info.logo} alt={`${info.title}`} />
+              </MyTeamImageBlock>
 
-            <VideoBlock className="video-max-width">
-              <HoverVideoPlayer
-                videoUrl={info.video as string}
-                postImage={info.poster}
-                isHovered={hoveredVideos.includes(info.name)}
-              />
-            </VideoBlock>
+              <ImageBlock className="video-max-width">
+                <HoverVideoPlayer
+                  videoUrl={info.video as string}
+                  postImage={info.image}
+                  isHovered={hoveredVideos.includes(info.title)}
+                />
+              </ImageBlock>
 
-            <ActivityInfoWrap>
-              <ContentInfoWrap>
-                {/* <p>만든 모임: </p>
-                <p>활동 경험치: </p>
-                <p>축구란?</p> */}
-              </ContentInfoWrap>
+              <ActivityInfoWrap>
+                <ContentInfoWrap>Category Card</ContentInfoWrap>
 
-              <SelectButton onClick={handleSelectContents}>선택</SelectButton>
-            </ActivityInfoWrap>
-          </ActivityContents>
-        ))}
+                <SelectButton onClick={handleSelectContents(info.title)}>
+                  선택
+                </SelectButton>
+              </ActivityInfoWrap>
+            </ActivityContents>
+          ))}
+        </ContentsWrapper>
       </ActiveBlock>
 
-      {/* <AnimatePresence initial={false} onExitComplete={() => null}>
-        {isCreateTeam && (
+      <AnimatePresence initial={false} onExitComplete={() => null}>
+        {isCreateOpen && (
           <CreateTeamModal
             title="Create Team!"
             desc="Let's Create your Team!"
             buttonType="double"
-            isOpen={isCreateTeam}
-            handleOpenModal={() => setIsCreateTeam(!isCreateTeam)}
+            isOpen={isCreateOpen}
+            onCancel={onCreateClose}
           />
         )}
-      </AnimatePresence> */}
+      </AnimatePresence>
     </Container>
   );
 };

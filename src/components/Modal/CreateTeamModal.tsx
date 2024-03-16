@@ -8,8 +8,8 @@ type Props = {
   desc?: string;
   buttonType?: 'single' | 'double';
   isOpen: boolean;
-  handleLogout?: () => void;
-  handleOpenModal: () => void;
+  onConfirm?: () => void;
+  onCancel: () => void;
 };
 
 const Container = styled.div`
@@ -96,11 +96,11 @@ const CreateTeamModal = ({
   desc,
   buttonType,
   isOpen,
-  handleLogout,
-  handleOpenModal,
+  onConfirm,
+  onCancel,
 }: Props) => {
   return (
-    <Modal isOpen={isOpen} handleOpenModal={handleOpenModal}>
+    <Modal isOpen={isOpen} onClose={onCancel}>
       <Container>
         <TextBox>
           <ModalTitle>{title}</ModalTitle>
@@ -117,7 +117,7 @@ const CreateTeamModal = ({
               isLeft={true}
               size="sm"
               variant="ghost"
-              onClick={handleLogout}
+              onClick={onConfirm}
             >
               확인
             </DoubleButton>
@@ -125,7 +125,7 @@ const CreateTeamModal = ({
               isLeft={false}
               size="sm"
               variant="ghost"
-              onClick={handleOpenModal}
+              onClick={onCancel}
             >
               취소
             </DoubleButton>
@@ -139,7 +139,7 @@ const CreateTeamModal = ({
               size="sm"
               buttonType={buttonType === 'single'}
               variant="ghost"
-              onClick={handleOpenModal}
+              onClick={onConfirm}
             >
               확인
             </ModalButton>

@@ -1,15 +1,21 @@
-import Image, { StaticImageData } from 'next/image';
+import { StaticImageData } from 'next/image';
 import styled from '@emotion/styled';
+import Image from './Image';
 
 const Container = styled.div`
   position: relative;
+  height: 100%;
+  width: 100%;
 `;
 
 const ImageBlock = styled.div`
-  height: max-content;
+  width: 100%;
+  height: 100%;
   border-radius: 12px;
 
   & > img {
+    width: 100%;
+    height: 100%;
     max-height: 445px;
     object-fit: cover;
     opacity: 0.8;
@@ -26,7 +32,7 @@ const ImageBlock = styled.div`
 
 type Props = {
   videoUrl: string;
-  postImage: StaticImageData;
+  postImage: string;
   isHovered: boolean;
 };
 
@@ -44,7 +50,7 @@ const HoverVideoPlayer = ({ videoUrl, postImage, isHovered }: Props) => (
       </video>
     ) : (
       <ImageBlock>
-        <Image src={postImage} alt="sports-poster-img" layout="responsive" />
+        <Image src={postImage} alt="sports-poster-img" />
       </ImageBlock>
     )}
   </Container>

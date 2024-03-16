@@ -200,7 +200,10 @@ const Header = () => {
           {session ? (
             <HeaderLoginBlock>
               <UserInfoText>
-                <span>로그인 이메일 : {session?.user?.email}</span>
+                <span>
+                  로그인 이메일 :{' '}
+                  {session.user.email ? session.user.email : '사용자'}
+                </span>
               </UserInfoText>
 
               <WebSignButton onClick={() => setIsConfirmLogout(true)}>

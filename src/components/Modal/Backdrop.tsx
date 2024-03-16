@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 type BackdropProps = {
   children: React.ReactNode;
-  handleOpenModal: () => void;
+  onClose: () => void;
 };
 
 const Container = styled(motion.div)`
@@ -22,10 +22,10 @@ const Container = styled(motion.div)`
   z-index: 99;
 `;
 
-const Backdrop = ({ children, handleOpenModal }: BackdropProps) => {
+const Backdrop = ({ children, onClose }: BackdropProps) => {
   return (
     <Container
-      onClick={handleOpenModal}
+      onClick={onClose}
       className="backdrop"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

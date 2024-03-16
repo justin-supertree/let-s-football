@@ -6,7 +6,7 @@ import Backdrop from './Backdrop';
 type Props = {
   isOpen: boolean;
   children: React.ReactNode;
-  handleOpenModal: () => void;
+  onClose: () => void;
 };
 
 const ModalBlock = styled(motion.div)`
@@ -40,7 +40,7 @@ const dropIn = {
   },
 };
 
-const Modal = ({ children, isOpen, handleOpenModal }: Props) => {
+const Modal = ({ children, isOpen, onClose }: Props) => {
   const handleContentClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
@@ -48,7 +48,7 @@ const Modal = ({ children, isOpen, handleOpenModal }: Props) => {
   };
 
   return (
-    <Backdrop handleOpenModal={handleOpenModal}>
+    <Backdrop onClose={onClose}>
       <ModalBlock onClick={handleContentClick} variants={dropIn}>
         {children}
       </ModalBlock>
