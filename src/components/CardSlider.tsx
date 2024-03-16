@@ -29,7 +29,6 @@ const StyledSliderContainer = styled.div`
       justify-content: center;
 
       & > div {
-        width: 100%;
         height: 100%;
         display: flex;
         align-items: center;
@@ -74,17 +73,18 @@ export function PrevArrow({ className, style, onClick }: ArrowProps) {
 }
 
 type Props = {
+  slidesToShow: number;
   children: React.ReactNode;
 };
 
-const CardSlider = ({ children }: Props) => {
+const CardSlider = ({ slidesToShow, children }: Props) => {
   const settings = {
     arrows: true,
     dots: true,
     infinite: true,
-    slidesToShow: 1,
+    slidesToShow: slidesToShow,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: false,
     autoplaySpeed: 2500,
     pauseOnHover: true,
     nextArrow: <NextArrow />,

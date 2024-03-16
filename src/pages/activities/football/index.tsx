@@ -223,7 +223,7 @@ const Football: NextPageWithLayout = () => {
 
             <BannerContainer>
               <BannerBlock>
-                <CardSlider>
+                <CardSlider slidesToShow={1}>
                   {bannerData.map((info, index) => (
                     <BannerContents key={index}>
                       <div>{info} banner</div>

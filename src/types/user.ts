@@ -24,3 +24,8 @@ export type requestLanguage = {
   language: string;
   serviceId: string;
 };
+
+export type UserInfoRequestParams = {
+  token?: string;
+  snsType: string;
+};

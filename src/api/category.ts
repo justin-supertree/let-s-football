@@ -1,16 +1,16 @@
 import api from '@/api/index';
 import { AxiosError } from 'axios';
 
-import { ResponseError } from '@/types/fetch';
+import { ResponseData, ResponseError } from '@/types/fetch';
 
-import type { UserInfoRequestParams } from '@/types/user';
+import type { CategoryListResponse } from '@/types/category';
 
-export const userInformation = async ({
-  token,
-  snsType,
-}: UserInfoRequestParams) => {
+export const getCategoryInformation = async () => {
   try {
-    const { data } = await api.post('/v1/users/sns/login', { token, snsType });
+    const { data } = await api.get<ResponseData<CategoryListResponse>>(
+      '/v1/category/list',
+    );
+
     if (!data.result && data.message) {
       throw new ResponseError(data.message, '10');
     }
