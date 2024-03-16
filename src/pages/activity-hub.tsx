@@ -34,12 +34,13 @@ const ContentsWrap = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  width: 100%;
   height: 150px;
   text-align: center;
   margin-bottom: 16px;
 
   & > p {
-    font-size: 54px;
+    font-size: 32px;
     font-weight: 800;
     font-family: Novarese;
   }
