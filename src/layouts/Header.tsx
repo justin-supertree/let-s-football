@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,6 +7,7 @@ import { Button } from '@chakra-ui/react';
 import { AnimatePresence } from 'framer-motion';
 import { signIn, signOut, useSession } from 'next-auth/react';
 
+import { clearCategory, getCategory } from '@/lib/util';
 import { userInformation } from '@/api/user';
 
 import BaseModal from '@/components/Modal/BaseModal';
@@ -35,7 +36,7 @@ const RoutingBlock = styled.div`
   gap: 12px;
 `;
 
-const LogoBlock = styled.div`
+const LogoBlock = styled.div<{ isActive?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -43,15 +44,16 @@ const LogoBlock = styled.div`
   height: 45px;
   font-size: 24px;
   font-weight: 900;
-  color: black;
+
+  color: ${({ isActive }) => (isActive ? 'red' : '')};
   transition: 0.2s all ease-in-out;
 
   & > img {
     border-radius: 12px;
   }
 
-  :hover {
-    color: red;
+  &:hover {
+    color: brown;
   }
 `;
 
@@ -126,13 +128,24 @@ const LoginBlock = styled.div`
 const LoginButton = styled(Button)``;
 
 const Header = () => {
+  const [isError, setIsError] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isConfirmLogout, setIsConfirmLogout] = useState(false);
   const [isRedirectModalOpen, setIsRedirectModalOpen] = useState(false);
-  const [isError, setIsError] = useState(false);
 
   const { data: session } = useSession();
+  const router = useRouter();
+  const activity = getCategory();
   const accessToken = session?.accessToken;
+  const { code } = router.query;
+
+  const currentPage = useMemo(() => {
+    if (router) {
+      router.asPath.includes('/activities') ||
+        router.asPath.includes('/activity-hub');
+      return false;
+    }
+  }, [router]);
 
   const handleLogoutButton = () => {
     setIsConfirmLogout(false);
@@ -144,23 +157,22 @@ const Header = () => {
     setIsLoginOpen(!isLoginOpen);
   };
 
-  const router = useRouter();
-  const { code } = router.query;
-
-  const handleUserDataInfo = async () => {
-    if (accessToken) {
-      try {
-        console.log('handleUserDataInfo', accessToken);
-        await userInformation({ token: accessToken, snsType: 'kakao' });
-      } catch (error) {
-        console.log(error);
+  const handleUserDataInfo = useMemo(
+    () => async () => {
+      if (accessToken) {
+        try {
+          await userInformation({ token: accessToken, snsType: 'kakao' });
+        } catch (error) {
+          console.log(error);
+        }
       }
-    }
-  };
+    },
+    [accessToken],
+  );
 
   useEffect(() => {
     handleUserDataInfo();
-  }, []);
+  }, [handleUserDataInfo]);
 
   useEffect(() => {
     if (code) {
@@ -169,6 +181,7 @@ const Header = () => {
           code,
           redirect: false,
         });
+        clearCategory();
 
         if (res?.error && !res.ok) {
           setIsError(true);
@@ -191,9 +204,11 @@ const Header = () => {
             <LogoBlock>종목</LogoBlock>
           </Link>
 
-          <Link href={`/activities/football`}>
-            <LogoBlock>팀현황</LogoBlock>
-          </Link>
+          {activity && (
+            <Link href={`/activities/football`}>
+              <LogoBlock>팀현황</LogoBlock>
+            </Link>
+          )}
         </RoutingBlock>
 
         <ClickBlock>

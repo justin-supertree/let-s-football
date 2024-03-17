@@ -1,17 +1,18 @@
 import { commonAnimate, duration } from '@/data/animate';
 
-const GET_SELECT_CATEGORY = 'getSelectCategory';
-const SET_SELECT_CATEGORY = 'setSelectCategory';
+const SELECT_CATEGORY = 'selectCategory';
 
 export const getCategory = () => {
   if (typeof window !== 'undefined' && localStorage)
-    return localStorage.getItem(GET_SELECT_CATEGORY) ?? '';
+    return localStorage.getItem(SELECT_CATEGORY) ?? '';
 
   return '';
 };
 
-export const setCategory = (serviceId: string) =>
-  localStorage.setItem(SET_SELECT_CATEGORY, serviceId);
+export const setCategory = (title: string) =>
+  localStorage.setItem(SELECT_CATEGORY, title);
+
+export const clearCategory = () => localStorage.removeItem(SELECT_CATEGORY);
 
 export const getAnimate = (
   variant: 'exit' | 'enter',
