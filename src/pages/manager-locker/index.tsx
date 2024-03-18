@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Input, Select, keyframes } from '@chakra-ui/react';
 import Image, { StaticImageData } from 'next/image';
@@ -17,14 +17,6 @@ import FieldTwo from '@/images/field-2.jpg';
 import FieldThree from '@/images/field-3.jpg';
 import { css } from '@emotion/react';
 
-type InitialProps = {
-  teamName: { value: string; result: false };
-  sports: { value: string; result: false };
-  trainingPlace: { value: string; result: false };
-  teamGender: { value: string; result: false };
-  Contact: { value: string; type: string; result: false };
-};
-
 type ImageState = StaticImageData | string;
 
 const Container = styled.div`
@@ -39,7 +31,7 @@ const PageTitle = styled.p`
   font-style: normal;
   font-weight: 800;
   padding-top: 32px;
-  color: white;
+  color: black;
   text-align: left;
 `;
 
@@ -49,7 +41,7 @@ const CurrentPageText = styled.p`
   font-style: normal;
   font-weight: 800;
   padding-top: 32px;
-  color: yellow;
+  color: black;
 `;
 
 const MainBlock = styled.div`
@@ -57,13 +49,15 @@ const MainBlock = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  max-width: 1440px;
   min-height: 70vh;
   font-family: Novarese;
   font-size: 32px;
   font-style: normal;
   font-weight: 800;
-  color: white;
   z-index: 100;
+  border: 1px solid;
+  margin: auto;
 `;
 
 const RecruitmentBlock = styled.div`
@@ -102,6 +96,7 @@ const CustomInput = styled(Input)`
   border-top: none;
   border-left: none;
   border-right: none;
+  border-bottom: 3px solid;
   border-radius: 0;
   cursor: pointer;
 `;
@@ -137,15 +132,16 @@ const FootBallTypeBlock = styled.div`
   gap: 24px;
 `;
 
-const FootBallTypeImage = styled.div`
+const FootBallTypeImage = styled.div<{ isSelect: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
   width: 200px;
   height: 250px;
   border-radius: 12px;
-  background-color: beige;
-  color: black;
+  background-color: ${({ isSelect }) => (isSelect ? 'blue' : 'white')};
+  color: ${({ isSelect }) => (isSelect ? 'white' : 'black')};
+
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 
@@ -200,27 +196,34 @@ const KakaoMapBlock = styled.div`
 
 const backgroundImages = [FieldOne, FieldTwo, FieldThree];
 
+const initialCreateInfo = {
+  teamName: { value: '', result: false },
+  sports: { value: '', result: false },
+  trainingPlace: { value: '', result: false },
+  teamFormation: { value: '', result: false },
+  Contact: { value: '', type: '', result: false },
+};
+
 const ManagerLocker: NextPageWithLayout = () => {
   const [step, setStep] = useState(0);
   const [players, setPlayers] = useState(11);
   const [selectedFormation, setSelectedFormation] = useState('433');
   const [backgroundView, setBackgroundView] = useState<ImageState>('');
   const [recruitmentInfos, setRecruitmentInfos] = useState(initialProps);
-  const [createData, setCreateData] = useState<InitialProps>({
-    teamName: { value: '', result: false },
-    sports: { value: '', result: false },
-    trainingPlace: { value: '', result: false },
-    teamGender: { value: '', result: false },
-    Contact: { value: '', type: '', result: false },
-  });
+  const [inputData, setInputData] = useState(initialCreateInfo);
+  const [createData, setCreateData] = useState(initialCreateInfo);
   const options = [11, 10, 9, 8, 7, 6, 5, 4];
 
-  // const updateCreateData = useCallback((key, value) => {
-  //   setCreateData((prevData) => ({
-  //     ...prevData,
-  //     [key]: { ...prevData[key], value },
-  //   }));
-  // }, []);
+  const createPlayerInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setInputData((prevData) => ({
+      ...prevData,
+      [name]: {
+        value,
+      },
+    }));
+  };
 
   const handleCurrentPage = (current: number) => {
     setStep(current);
@@ -232,17 +235,26 @@ const ManagerLocker: NextPageWithLayout = () => {
   };
 
   const handleNextPage = (next: number) => {
+    if (!inputData.teamName.value) {
+      setStep(0);
+      return;
+    }
+    setInputData({
+      ...inputData,
+      teamName: { value: inputData.teamName.value, result: true },
+    });
     setStep(next);
   };
 
-  const handleSelectFootballType = (name: string) => {
-    alert(`Select ${name}`);
+  const handleSelectFootballType = (name: string) => () => {
+    console.log('handleSelectFootballType >', name);
+    setInputData({ ...inputData, sports: { value: name, result: true } });
   };
 
   useEffect(() => {
-    if (step < 0) {
+    if (step < 1) {
       setStep(0);
-      alert('you are in First page!');
+      console.log('first page!');
     }
   }, [step]);
 
@@ -268,6 +280,10 @@ const ManagerLocker: NextPageWithLayout = () => {
     }
   }, [step]);
 
+  useEffect(() => {
+    console.log('inputData >', inputData);
+  }, [inputData]);
+
   return (
     <Container>
       <OverlayBlock step={step}>
@@ -285,7 +301,13 @@ const ManagerLocker: NextPageWithLayout = () => {
         {step === 0 && (
           <InformationBlock>
             <SubTitle>Create Your Team Name</SubTitle>
-            <CustomInput fontSize={38} />
+            <CustomInput
+              fontSize={38}
+              name="teamName"
+              value={inputData.teamName.value}
+              placeholder="Enter Team Name"
+              onChange={createPlayerInputChange}
+            />
           </InformationBlock>
         )}
 
@@ -297,8 +319,9 @@ const ManagerLocker: NextPageWithLayout = () => {
               {footballTypeData &&
                 footballTypeData.map((info, index) => (
                   <FootBallTypeImage
-                    onClick={() => handleSelectFootballType(info.name)}
-                    key={`${info.type}-${index}`}
+                    isSelect={info.type === inputData.sports.value}
+                    onClick={handleSelectFootballType(info.type)}
+                    key={`football-${info.type}-${index}`}
                   >
                     {info.name}
                   </FootBallTypeImage>
@@ -368,6 +391,7 @@ const ManagerLocker: NextPageWithLayout = () => {
 
       <CurrentStep
         step={step}
+        createData={inputData}
         handleCurrentPage={handleCurrentPage}
         handlePrevPage={handlePrevPage}
         handleNextPage={handleNextPage}

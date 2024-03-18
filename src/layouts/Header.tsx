@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import styled from '@emotion/styled';
-import { Button } from '@chakra-ui/react';
+import { Button, useDisclosure } from '@chakra-ui/react';
 import { AnimatePresence } from 'framer-motion';
 import { signIn, signOut, useSession } from 'next-auth/react';
 
@@ -130,7 +130,6 @@ const LoginButton = styled(Button)``;
 const Header = () => {
   const [isError, setIsError] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isConfirmLogout, setIsConfirmLogout] = useState(false);
   const [isRedirectModalOpen, setIsRedirectModalOpen] = useState(false);
 
   const { data: session } = useSession();
@@ -147,10 +146,20 @@ const Header = () => {
     }
   }, [router]);
 
+  const {
+    isOpen: isLogoutOpen,
+    onOpen: onLogoutOpen,
+    onClose: onLogoutClose,
+  } = useDisclosure();
+
   const handleLogoutButton = () => {
-    setIsConfirmLogout(false);
+    onLogoutClose();
     signOut({ redirect: false });
-    router.push('/');
+    router.replace('/');
+  };
+
+  const handleRouterPage = (page: string) => () => {
+    router.push(page);
   };
 
   const handleLoginToggle = () => {
@@ -195,19 +204,18 @@ const Header = () => {
     <>
       <Container>
         <RoutingBlock>
-          <Link href="/">
-            <LogoBlock>
-              <Image src={MainLogo} alt="main-logo" />
-            </LogoBlock>
-          </Link>
-          <Link href="/activity-hub">
-            <LogoBlock>종목</LogoBlock>
-          </Link>
+          <LogoBlock onClick={handleRouterPage('/')}>
+            <Image src={MainLogo} alt="main-logo" />
+          </LogoBlock>
+
+          <LogoBlock onClick={handleRouterPage('/activity-hub')}>
+            종목
+          </LogoBlock>
 
           {activity && (
-            <Link href={`/activities/football`}>
-              <LogoBlock>팀현황</LogoBlock>
-            </Link>
+            <LogoBlock onClick={handleRouterPage('/activities/football')}>
+              팀현황
+            </LogoBlock>
           )}
         </RoutingBlock>
 
@@ -221,9 +229,7 @@ const Header = () => {
                 </span>
               </UserInfoText>
 
-              <WebSignButton onClick={() => setIsConfirmLogout(true)}>
-                LOGOUT
-              </WebSignButton>
+              <WebSignButton onClick={onLogoutOpen}>LOGOUT</WebSignButton>
             </HeaderLoginBlock>
           ) : (
             <div>
@@ -241,13 +247,13 @@ const Header = () => {
           />
         )}
 
-        {isConfirmLogout && (
+        {isLogoutOpen && (
           <BaseModal
             title="로그아웃 성공"
             desc="다음에 또 봐요~"
             buttonType="single"
-            isOpen={isConfirmLogout}
-            handleOpenModal={handleLogoutButton}
+            isOpen={isLogoutOpen}
+            onClose={handleLogoutButton}
           />
         )}
 

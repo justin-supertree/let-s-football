@@ -1,8 +1,8 @@
+import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 
-import Button from '../Button';
-import Modal from './InfoModal';
-import { useRouter } from 'next/router';
+import Button from '@/components/Button';
+import Modal from '@/components/Modal/InfoModal';
 
 type Props = {
   title: string;

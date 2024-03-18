@@ -9,7 +9,7 @@ type Props = {
   buttonType?: 'single' | 'double';
   isOpen: boolean;
   handleLogout?: () => void;
-  handleOpenModal: () => void;
+  onClose: () => void;
 };
 
 const Container = styled.div`
@@ -97,10 +97,10 @@ const BaseModal = ({
   buttonType,
   isOpen,
   handleLogout,
-  handleOpenModal,
+  onClose,
 }: Props) => {
   return (
-    <Modal isOpen={isOpen} handleOpenModal={handleOpenModal}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <Container>
         <TextBox>
           <ModalTitle>{title}</ModalTitle>
@@ -121,7 +121,7 @@ const BaseModal = ({
               isLeft={false}
               size="sm"
               variant="ghost"
-              onClick={handleOpenModal}
+              onClick={onClose}
             >
               취소
             </DoubleButton>
@@ -135,7 +135,7 @@ const BaseModal = ({
               size="sm"
               buttonType={buttonType === 'single'}
               variant="ghost"
-              onClick={handleOpenModal}
+              onClick={onClose}
             >
               확인
             </ModalButton>

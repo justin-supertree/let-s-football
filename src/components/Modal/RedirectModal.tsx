@@ -110,7 +110,7 @@ const RedirectModal = ({ isOpen, buttonType, handleOpenModal }: Props) => {
   };
 
   return (
-    <Modal isOpen={isOpen} handleOpenModal={() => isOpen && handleOpenModal}>
+    <Modal isOpen={isOpen} onClose={() => isOpen && handleOpenModal}>
       <Container>
         <TitleBlock>
           <Title>로그인 실패</Title>
