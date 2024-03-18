@@ -137,7 +137,7 @@ const text = {
 
 const LoginModal = ({ isOpen, handleModalClose }: Props) => {
   return (
-    <Modal isOpen={isOpen} handleOpenModal={handleModalClose}>
+    <Modal onClose={handleModalClose}>
       <Container>
         <TitleBlock>
           <Title>{text.kor.title}</Title>

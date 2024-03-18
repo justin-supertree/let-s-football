@@ -16,9 +16,9 @@ type Props = {
     teamFormation: InputValueProps;
     Contact: InputValueProps;
   };
-  handleCurrentPage: (current: number) => void;
-  handlePrevPage: (prev: number) => void;
-  handleNextPage: (next: number) => void;
+  handleCurrentPage: (current: number) => () => void;
+  handlePrevPage: (prev: number) => () => void;
+  handleNextPage: (next: number) => () => void;
 };
 
 const CreateProgressBlock = styled.div`
@@ -78,7 +78,7 @@ const CurrentStep = ({
         role="button"
         aria-disabled={createData.teamName.result === false}
         isCurrent={step === 0}
-        onClick={() => handleCurrentPage(0)}
+        onClick={handleCurrentPage(0)}
       >
         <IconCheck
           key={`current-team-make-0`}
@@ -92,7 +92,7 @@ const CurrentStep = ({
         role="button"
         aria-disabled={createData.sports.result === false}
         isCurrent={step === 1}
-        onClick={() => handleCurrentPage(1)}
+        onClick={handleCurrentPage(1)}
       >
         <IconCheck
           key={`current-team-make-1`}
@@ -105,7 +105,7 @@ const CurrentStep = ({
         role="button"
         aria-disabled={createData.trainingPlace.result === false}
         isCurrent={step === 2}
-        onClick={() => handleCurrentPage(2)}
+        onClick={handleCurrentPage(2)}
       >
         <IconCheck
           key={`current-team-make-2`}
@@ -118,7 +118,7 @@ const CurrentStep = ({
         role="button"
         aria-disabled={createData.teamFormation.result === false}
         isCurrent={step === 3}
-        onClick={() => handleCurrentPage(3)}
+        onClick={handleCurrentPage(3)}
       >
         <IconCheck
           key={`current-team-make-3`}
@@ -144,10 +144,10 @@ const CurrentStep = ({
 
     <PaginationBlock>
       {step > 0 && (
-        <LeftButton onClick={() => handlePrevPage(step - 1)}>Prev</LeftButton>
+        <LeftButton onClick={handlePrevPage(step - 1)}>Prev</LeftButton>
       )}
       {step < 4 && (
-        <RightButton onClick={() => handleNextPage(step + 1)}>Next</RightButton>
+        <RightButton onClick={handleNextPage(step + 1)}>Next</RightButton>
       )}
     </PaginationBlock>
   </>

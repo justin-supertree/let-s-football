@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Backdrop from './Backdrop';
 
 type Props = {
-  isOpen: boolean;
+  bgColor?: string;
   children: React.ReactNode;
   onClose: () => void;
 };
@@ -40,7 +40,7 @@ const dropIn = {
   },
 };
 
-const Modal = ({ children, isOpen, onClose }: Props) => {
+const Modal = ({ children, bgColor, onClose }: Props) => {
   const handleContentClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
@@ -48,7 +48,7 @@ const Modal = ({ children, isOpen, onClose }: Props) => {
   };
 
   return (
-    <Backdrop onClose={onClose}>
+    <Backdrop bgColor={bgColor} onClose={onClose}>
       <ModalBlock onClick={handleContentClick} variants={dropIn}>
         {children}
       </ModalBlock>

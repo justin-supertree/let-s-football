@@ -100,7 +100,7 @@ const BaseModal = ({
   onClose,
 }: Props) => {
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal onClose={onClose}>
       <Container>
         <TextBox>
           <ModalTitle>{title}</ModalTitle>

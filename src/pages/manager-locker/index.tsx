@@ -209,9 +209,9 @@ const ManagerLocker: NextPageWithLayout = () => {
   const [players, setPlayers] = useState(11);
   const [selectedFormation, setSelectedFormation] = useState('433');
   const [backgroundView, setBackgroundView] = useState<ImageState>('');
-  const [recruitmentInfos, setRecruitmentInfos] = useState(initialProps);
+  // const [recruitmentInfos, setRecruitmentInfos] = useState(initialProps);
   const [inputData, setInputData] = useState(initialCreateInfo);
-  const [createData, setCreateData] = useState(initialCreateInfo);
+  // const [createData, setCreateData] = useState(initialCreateInfo);
   const options = [11, 10, 9, 8, 7, 6, 5, 4];
 
   const createPlayerInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -225,16 +225,16 @@ const ManagerLocker: NextPageWithLayout = () => {
     }));
   };
 
-  const handleCurrentPage = (current: number) => {
+  const handleCurrentPage = (current: number) => () => {
     setStep(current);
     console.log('handleCurrentPage >', current);
   };
 
-  const handlePrevPage = (prev: number) => {
+  const handlePrevPage = (prev: number) => () => {
     setStep(prev);
   };
 
-  const handleNextPage = (next: number) => {
+  const handleNextPage = (next: number) => () => {
     if (!inputData.teamName.value) {
       setStep(0);
       return;

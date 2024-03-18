@@ -4,12 +4,9 @@ import Button from '../Button';
 import Modal from '.';
 
 type Props = {
-  title: string;
-  desc?: string;
-  buttonType?: 'single' | 'double';
   isOpen: boolean;
-  onConfirm?: () => void;
-  onCancel: () => void;
+  handleLogout?: () => void;
+  onClose: () => void;
 };
 
 const Container = styled.div`
@@ -80,7 +77,7 @@ const ModalTitle = styled.p`
   font-size: 20px;
   font-style: normal;
   font-weight: 700;
-  line-height: 26px; /* 130% */
+  line-height: 26px;
 `;
 
 const ModalDescription = styled.p`
@@ -91,63 +88,38 @@ const ModalDescription = styled.p`
   line-height: 20px;
 `;
 
-const CreateTeamModal = ({
-  title,
-  desc,
-  buttonType,
-  isOpen,
-  onConfirm,
-  onCancel,
-}: Props) => {
+const UserInfoVerifiedModal = ({ handleLogout, onClose }: Props) => {
   return (
-    <Modal onClose={onCancel}>
+    <Modal bgColor="bright" onClose={onClose}>
       <Container>
         <TextBox>
-          <ModalTitle>{title}</ModalTitle>
-          <ModalDescription>{desc}</ModalDescription>
+          <ModalTitle>정회원 인증</ModalTitle>
+          <ModalDescription>
+            서비스를 이용하기 위해서는 정회원 인증이 필요합니다
+          </ModalDescription>
         </TextBox>
 
-        <div>
-          <p>We are waiting for you make New Team!</p>
-        </div>
-
-        {buttonType === 'double' && (
-          <ButtonBox>
-            <DoubleButton
-              isLeft={true}
-              size="sm"
-              variant="ghost"
-              onClick={onConfirm}
-            >
-              확인
-            </DoubleButton>
-            <DoubleButton
-              isLeft={false}
-              size="sm"
-              variant="ghost"
-              onClick={onCancel}
-            >
-              취소
-            </DoubleButton>
-          </ButtonBox>
-        )}
-
-        {buttonType === 'single' && (
-          <ButtonBox>
-            <ModalButton
-              isLeft={true}
-              size="sm"
-              buttonType={buttonType === 'single'}
-              variant="ghost"
-              onClick={onConfirm}
-            >
-              확인
-            </ModalButton>
-          </ButtonBox>
-        )}
+        <ButtonBox>
+          <DoubleButton
+            isLeft={false}
+            size="sm"
+            variant="ghost"
+            onClick={onClose}
+          >
+            취소
+          </DoubleButton>
+          <DoubleButton
+            isLeft={true}
+            size="sm"
+            variant="ghost"
+            onClick={handleLogout}
+          >
+            확인
+          </DoubleButton>
+        </ButtonBox>
       </Container>
     </Modal>
   );
 };
 
-export default CreateTeamModal;
+export default UserInfoVerifiedModal;

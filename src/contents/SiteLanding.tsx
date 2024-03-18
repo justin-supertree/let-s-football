@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
-import { Input } from '@chakra-ui/react';
+import { Input, useDisclosure } from '@chakra-ui/react';
 import { AnimatePresence } from 'framer-motion';
 import palette from '@/styles/palette';
 
@@ -13,6 +13,7 @@ import { ResponseError } from '@/types/fetch';
 
 import Button from '@/components/Button';
 import BaseModal from '@/components/Modal/BaseModal';
+import UserInfoVerifiedModal from '@/components/Modal/UserInfoVerifiedModal';
 
 const Container = styled.div`
   position: relative;
@@ -165,6 +166,12 @@ const SiteLanding = () => {
   const router = useRouter();
   const { code } = router.query;
 
+  const {
+    isOpen: isVerifiedOpen,
+    onOpen: onVerifiedOpen,
+    onClose: onVerifiedClose,
+  } = useDisclosure();
+
   const handleLogoutButton = () => {
     setIsConfirmLogout(false);
     signOut({ redirect: false });
@@ -176,6 +183,11 @@ const SiteLanding = () => {
   };
 
   const handleLoginService = async () => {
+    if (!session?.user.email) {
+      onVerifiedOpen();
+      return;
+    }
+
     try {
       const userData = await userInformation({
         token: session?.accessToken,
@@ -311,7 +323,14 @@ const SiteLanding = () => {
             desc="다음에 또 봐요~"
             buttonType="single"
             isOpen={isConfirmLogout}
-            handleOpenModal={handleLogoutButton}
+            onClose={handleLogoutButton}
+          />
+        )}
+
+        {isVerifiedOpen && (
+          <UserInfoVerifiedModal
+            isOpen={isVerifiedOpen}
+            onClose={onVerifiedClose}
           />
         )}
       </AnimatePresence>
