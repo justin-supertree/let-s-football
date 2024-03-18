@@ -15,6 +15,7 @@ type MembershipProps = {
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  handleVerifyMemberShip: () => void;
 };
 
 const Container = styled.div`
@@ -126,7 +127,11 @@ const initialMembership = {
 const expireAt = 300;
 const reExpireAt = 30;
 
-const UserInfoVerifiedModal = ({ isOpen, onClose }: Props) => {
+const UserInfoVerifiedModal = ({
+  isOpen,
+  onClose,
+  handleVerifyMemberShip,
+}: Props) => {
   const [step, setStep] = useState(0);
   const [time, setTime] = useState(0);
   const [resendTime, setResendTime] = useState(0);
@@ -329,7 +334,9 @@ const UserInfoVerifiedModal = ({ isOpen, onClose }: Props) => {
             <CustomButton variant="ghost" onClick={handleStepClock(2)}>
               뒤로가기
             </CustomButton>
-            <CustomButton>회원가입</CustomButton>
+            <CustomButton onClick={handleVerifyMemberShip}>
+              회원가입
+            </CustomButton>
           </ButtonBlock>
         )}
       </Container>

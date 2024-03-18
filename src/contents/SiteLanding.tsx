@@ -184,6 +184,11 @@ const SiteLanding = () => {
     alert('click scroll button');
   };
 
+  const handleVerifyMemberShip = () => {
+    onVerifiedClose();
+    router.push('/activity-hub');
+  };
+
   const handleLoginService = async () => {
     if (!session?.user.email) {
       onVerifiedOpen();
@@ -330,6 +335,7 @@ const SiteLanding = () => {
           <UserInfoVerifiedModal
             isOpen={isVerifiedOpen}
             onClose={onVerifiedClose}
+            handleVerifyMemberShip={handleVerifyMemberShip}
           />
         )}
       </AnimatePresence>
