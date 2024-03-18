@@ -123,7 +123,7 @@ const sizeStyle: (size: ButtonSize) => SerializedStyles = (size) => css`
 const variantStyle: (type: ButtonVariant) => SerializedStyles = (type) => css`
   ${type === 'ghost' &&
   css`
-    border: 1px solid #444;
+    /* border: 1px solid #444; */
     color: ${palette.neutrals100};
     background: linear-gradient(to right, #7f7f7f80 50%, transparent 50%);
     background-size: 200% 100%;
@@ -140,12 +140,12 @@ const variantStyle: (type: ButtonVariant) => SerializedStyles = (type) => css`
     }
 
     &:active:not(:disabled) {
-      border: 1px solid ${palette.neutrals400};
+      /* border: 1px solid ${palette.neutrals400}; */
       background-color: ${palette.neutrals300};
     }
 
     &:disabled {
-      border: 1px solid #444;
+      /* border: 1px solid #444; */
       background-color: transparent;
       /* opacity: 0.5; */
     }
@@ -153,7 +153,8 @@ const variantStyle: (type: ButtonVariant) => SerializedStyles = (type) => css`
 
   ${type === 'solid' &&
   css`
-    border: 1px solid ${palette.neutrals300};
+    border: none;
+    /* border: 1px solid ${palette.neutrals300}; */
     color: ${palette.neutrals600};
     background: linear-gradient(
       to right,
@@ -175,7 +176,7 @@ const variantStyle: (type: ButtonVariant) => SerializedStyles = (type) => css`
     }
 
     &:active:not(:disabled) {
-      border: 1px solid ${palette.neutrals400};
+      /* border: 1px solid ${palette.neutrals400}; */
       background-color: ${palette.neutrals300};
     }
 

@@ -23,6 +23,10 @@ const Container = styled.div`
   font-weight: 800;
   background-color: #091442;
   overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Section = styled.section`
@@ -30,8 +34,7 @@ const Section = styled.section`
   align-items: center;
   justify-content: center;
   height: 100%;
-  border: 1px solid white;
-  background-color: #4562d6;
+  background-color: black;
 `;
 
 const TitleBlock = styled.div`
@@ -39,7 +42,7 @@ const TitleBlock = styled.div`
 `;
 
 const Title1 = styled.p`
-  font-size: 80px;
+  font-size: 64px;
   font-weight: 800;
 `;
 
@@ -161,7 +164,6 @@ const text = {
 const SiteLanding = () => {
   const [isConfirmLogout, setIsConfirmLogout] = useState(false);
   const [isError, setIsError] = useState(false);
-
   const { data: session } = useSession();
   const router = useRouter();
   const { code } = router.query;
@@ -230,7 +232,7 @@ const SiteLanding = () => {
 
   return (
     <Container>
-      <FloatingButton onClick={handleScrollToButton}>To Bottom</FloatingButton>
+      {/* <FloatingButton onClick={handleScrollToButton}>To Bottom</FloatingButton> */}
 
       <Section>
         <TitleBlock>
@@ -241,22 +243,19 @@ const SiteLanding = () => {
 
       <Section>
         <TitleBlock>
-          <Title1>Section1</Title1>
-          <Title2>열정과 협동심으로</Title2>
+          <Title1>열정과 협동심으로</Title1>
         </TitleBlock>
       </Section>
 
       <Section>
         <TitleBlock>
-          <Title1>Section2</Title1>
-          <Title2>나 자신의 마에스트로를 만들어보세요!</Title2>
+          <Title1>나 자신의 마에스트로를 만들어보세요!</Title1>
         </TitleBlock>
       </Section>
 
       <Section>
         <TitleBlock>
-          <Title1>Section2</Title1>
-          <Title2>내가 만든팀의 마에스트로가 되어보세요!</Title2>
+          <Title1>내가 만든팀의 마에스트로가 되어보세요!</Title1>
         </TitleBlock>
       </Section>
 

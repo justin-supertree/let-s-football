@@ -4,6 +4,8 @@ export const getBackground = (bgColor?: string) => {
       return 'black';
     case 'bright':
       return 'white';
+    case 'transparent':
+      return 'transparent';
     default:
       return '#black';
   }

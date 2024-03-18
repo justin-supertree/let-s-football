@@ -14,7 +14,7 @@ const ModalBlock = styled(motion.div)`
   text-align: center;
   border-radius: 8px;
   max-width: 90%;
-  background-color: black;
+  background-color: white;
 
   @media screen and (min-width: 768px) {
     max-width: 80%;
