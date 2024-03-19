@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
-import { Input, useDisclosure } from '@chakra-ui/react';
+import { Button, Input, useDisclosure } from '@chakra-ui/react';
 import { AnimatePresence } from 'framer-motion';
 import palette from '@/styles/palette';
 
@@ -11,7 +11,6 @@ import { IconKakao } from '@/images';
 
 import { ResponseError } from '@/types/fetch';
 
-import Button from '@/components/Button';
 import BaseModal from '@/components/Modal/BaseModal';
 import UserInfoVerifiedModal from '@/components/Modal/UserInfoVerifiedModal';
 
@@ -29,16 +28,36 @@ const Container = styled.div`
   }
 `;
 
-const Section = styled.section`
+const Section = styled.section<{ bgColor?: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
-  background-color: black;
+  background-color: ${({ bgColor }) => (bgColor ? bgColor : 'black')};
 `;
 
-const TitleBlock = styled.div`
+const TitleBlock = styled.div<{ bgColor?: string }>`
+  background-color: ${({ bgColor }) =>
+    bgColor ? bgColor : palette.neutrals900};
   text-align: center;
+`;
+
+const SignInBlock = styled.div<{ bgColor?: string }>`
+  height: 550px;
+  padding: 3rem;
+  border: 1px solid lightgray;
+  border-radius: 24px;
+  background-color: white;
+  text-align: center;
+`;
+
+const SignInWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  justify-content: space-between;
+  height: 100%;
+  gap: 1.75rem;
 `;
 
 const Title1 = styled.p`
@@ -49,6 +68,13 @@ const Title1 = styled.p`
 const Title2 = styled.p`
   font-size: 40px;
   font-weight: 600;
+`;
+
+const SignInTitle = styled.p`
+  font-size: 32px;
+  font-weight: 600;
+  color: black;
+  text-align: left;
 `;
 
 const FloatingButton = styled.div`
@@ -64,6 +90,7 @@ const FloatingButton = styled.div`
 const SocialLoginButtonBlock = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
   gap: 0.5rem;
 
   & > a {
@@ -79,11 +106,11 @@ const SocialLoginButton = styled(Button)`
   gap: 12px;
   padding: 16px;
   border-radius: 8px;
-  border: 2px solid ${palette.neutrals700};
-  background-color: black;
+  background-color: white;
+  border: 1px solid lightgray;
   cursor: pointer;
 
-  span {
+  & > span {
     color: ${palette.neutrals900};
     font-family: Novarese;
     font-size: 16px;
@@ -97,25 +124,23 @@ const SocialLoginButton = styled(Button)`
 
 const EmailLoginBlock = styled.div`
   display: flex;
-  align-items: center;
+  align-items: space-between;
   justify-content: center;
   flex-direction: column;
-  padding: 16px;
   margin: 24px 0;
   border-radius: 12px;
-  border: 2px solid black;
 `;
 
 const LoginInfoText = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  font-family: Novarese;
+  margin: 12px 0;
+  gap: 1rem;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
-  margin: 12px 0;
+  color: black;
 
   & > p {
     white-space: pre;
@@ -135,20 +160,28 @@ const SignInTextBlock = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  margin-top: 1rem;
   gap: 24px;
 `;
 
 const SignInText = styled.p`
   font-size: 14px;
-  font-family: 400;
-  color: aqua;
+  font-weight: 400;
+  color: black;
+  transition: all ease-in-out 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 const text = {
   kor: {
     title: 'MaestroPitch Login',
     desc: 'MembersPlus 서비스 이용을 위해 로그인 해주세요.',
-    kakao: 'kakao로 계속',
+    kakao: 'kakao talk',
     naver: 'naver로 계속',
     google: 'google로 계속',
   },
@@ -264,14 +297,14 @@ const SiteLanding = () => {
         </TitleBlock>
       </Section>
 
-      <Section>
-        <TitleBlock>
-          <Title2>
-            {session ? `마에스트로님 반갑습니다.` : '로그인을 진행해주세요!'}
-          </Title2>
+      <Section bgColor="lightslategray">
+        <SignInBlock>
+          <SignInTitle>
+            {session ? `마에스트로님 반갑습니다.` : 'Login'}
+          </SignInTitle>
 
           {!session && (
-            <div>
+            <SignInWrapper>
               <EmailLoginBlock>
                 <LoginInfoText>
                   <p>이메일 :</p> <Input />
@@ -299,8 +332,20 @@ const SiteLanding = () => {
                     <span>{text.kor.kakao}</span>
                   </SocialLoginButton>
                 </a>
+
+                <SocialLoginButton isDisabled>
+                  <span>Google 로그인 예정</span>
+                </SocialLoginButton>
+
+                <SocialLoginButton isDisabled>
+                  <span>X 로그인 예정</span>
+                </SocialLoginButton>
+
+                <SocialLoginButton isDisabled>
+                  <span>Meta 로그인 예정</span>
+                </SocialLoginButton>
               </SocialLoginButtonBlock>
-            </div>
+            </SignInWrapper>
           )}
 
           {session && (
@@ -317,7 +362,7 @@ const SiteLanding = () => {
               </LogoutButton>
             </div>
           )}
-        </TitleBlock>
+        </SignInBlock>
       </Section>
 
       <AnimatePresence initial={false} onExitComplete={() => null}>
