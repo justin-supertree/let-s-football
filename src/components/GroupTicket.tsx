@@ -78,7 +78,7 @@ const GroupTicket = ({ data }: Props) => {
       >
         <GroupInfo>
           <InfoDetailBlock>
-            <p>Ticket Id : </p>
+            <p>모임번호 : </p>
             <p>{data && data.id}</p>
           </InfoDetailBlock>
 
@@ -93,8 +93,13 @@ const GroupTicket = ({ data }: Props) => {
           </InfoDetailBlock>
 
           <InfoDetailBlock>
+            <p>타입 : </p>
+            <p>{data && data.content?.type}</p>
+          </InfoDetailBlock>
+
+          <InfoDetailBlock>
             <p>Formation : </p>
-            <p>{data && data.content?.formation.FORMATION_4231}</p>
+            <p>{data && data.content?.formation}</p>
           </InfoDetailBlock>
 
           <EnterButton variant="solid" onClick={handleEnterDetail(data?.id)}>

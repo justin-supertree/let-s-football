@@ -220,7 +220,7 @@ const Football: NextPageWithLayout = () => {
   const { isLoading, isError, data, refetch } = useQuery(
     ['getServiceList'],
     async () => {
-      const result = await getMeetingInformation(1);
+      const result = await getMeetingInformation(2);
       return result;
     },
     {
