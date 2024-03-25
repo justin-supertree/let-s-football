@@ -3,6 +3,9 @@ import Link from 'next/link';
 import type { NextPageWithLayout } from '@/types/next-page';
 import styled from '@emotion/styled';
 import { Button, Input } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
+
+import { getMeetingInformation } from '@/api/meeting';
 
 import Layout from '@/layouts';
 import GroupTicket from '@/components/GroupTicket';
@@ -214,6 +217,17 @@ const TopAreaBlock = styled.div`
 const Football: NextPageWithLayout = () => {
   const [bannerData, setBannerData] = useState([1, 2, 3, 4, 5]);
 
+  const { isLoading, isError, data, refetch } = useQuery(
+    ['getServiceList'],
+    async () => {
+      const result = await getMeetingInformation(1);
+      return result;
+    },
+    {
+      refetchOnWindowFocus: false,
+    },
+  );
+
   return (
     <>
       <Container>
@@ -245,10 +259,10 @@ const Football: NextPageWithLayout = () => {
             <TeamGraphBlock>
               {recruitDemoData ? (
                 <div>
-                  {recruitDemoData.map((info, index) => (
+                  {data?.list.map((info, index) => (
                     <GroupTicket
                       data={info}
-                      key={`football-${info.teamName}-${index}`}
+                      key={`football-${info.id}-${index}`}
                     />
                   ))}
                 </div>
@@ -274,10 +288,10 @@ const Football: NextPageWithLayout = () => {
             <TeamGraphBlock>
               {myDemoData ? (
                 <div>
-                  {myDemoData.map((info, index) => (
+                  {data?.list.map((info, index) => (
                     <GroupTicket
                       data={info}
-                      key={`my-${info.teamName}-${index}`}
+                      key={`my-${info.title}-${index}`}
                     />
                   ))}
                 </div>

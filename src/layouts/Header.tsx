@@ -44,9 +44,9 @@ const LogoBlock = styled.div<{ isActive?: boolean }>`
   height: 45px;
   font-size: 24px;
   font-weight: 900;
-
   color: ${({ isActive }) => (isActive ? 'red' : '')};
   transition: 0.2s all ease-in-out;
+  cursor: pointer;
 
   & > img {
     border-radius: 12px;

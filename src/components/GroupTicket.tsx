@@ -1,17 +1,12 @@
-import { useEffect, useState } from 'react';
+import { MouseEvent, useState } from 'react';
+import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
 import { Button } from '@chakra-ui/react';
 
+import type { MeetingResponse } from '@/types/meeting';
+
 type Props = {
-  data?: {
-    id: number;
-    teamName: string;
-    footballType: string;
-    teamMember: number;
-    trainingPlace: string;
-    formation: string;
-    image: string;
-  };
+  data?: MeetingResponse;
 };
 
 const GroupBlock = styled.div<{ isOpenDetail: boolean }>`
@@ -61,14 +56,23 @@ const EnterButton = styled(Button)`
 const GroupTicket = ({ data }: Props) => {
   const [isContentDetail, setIsContentDetail] = useState(false);
 
+  const router = useRouter();
+
   const handleContentDetailOpen = () => {
     setIsContentDetail((prevState) => !prevState);
-    console.log('handleContentDetailOpen >', isContentDetail);
   };
+
+  const handleEnterDetail =
+    (id?: number) => (e: MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation();
+      router.push(`/activities/football/detail/${id}`);
+      console.log('handleEnterDetail >', id);
+    };
 
   return (
     <>
       <GroupBlock
+        role="button"
         isOpenDetail={isContentDetail}
         onClick={handleContentDetailOpen}
       >
@@ -80,20 +84,22 @@ const GroupTicket = ({ data }: Props) => {
 
           <InfoDetailBlock>
             <p>Team Name : </p>
-            <p>{data && data.teamName}</p>
+            <p>{data && data.title}</p>
           </InfoDetailBlock>
 
           <InfoDetailBlock>
             <p>Members : </p>
-            <p>{data && `${data.teamMember}/11`}</p>
+            <p>{data && `${data.participants}/${data.participantsMax}`}</p>
           </InfoDetailBlock>
 
           <InfoDetailBlock>
             <p>Formation : </p>
-            <p>{data && data.formation}</p>
+            <p>{data && data.content?.formation.FORMATION_4231}</p>
           </InfoDetailBlock>
 
-          <EnterButton variant="solid">입장</EnterButton>
+          <EnterButton variant="solid" onClick={handleEnterDetail(data?.id)}>
+            입장
+          </EnterButton>
         </GroupInfo>
       </GroupBlock>
 
