@@ -1,5 +1,3 @@
-import { UserInfo } from '@/types/user';
-
 export type LoginProps = {
   token: string;
   snsType: string;

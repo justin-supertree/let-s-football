@@ -223,7 +223,7 @@ const SiteLanding = () => {
   };
 
   const handleLoginService = async () => {
-    if (!session?.user.email) {
+    if (!session?.user.usersInfo.email) {
       onVerifiedOpen();
       return;
     }

@@ -225,7 +225,9 @@ const Header = () => {
               <UserInfoText>
                 <span>
                   로그인 이메일 :{' '}
-                  {session.user.email ? session.user.email : '사용자'}
+                  {session.user.usersInfo.email
+                    ? session.user.usersInfo.email
+                    : '사용자'}
                 </span>
               </UserInfoText>
 

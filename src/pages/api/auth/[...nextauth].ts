@@ -4,7 +4,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { kakaoUserLogin } from '@/api/auth';
 import { userInformation } from '@/api/user';
 
-import type { PlayerInfo } from '@/types/partner';
+import type { LoginResponse } from '@/types/auth';
 
 export default NextAuth({
   providers: [
@@ -79,7 +79,7 @@ export default NextAuth({
       session.tokenType = token.tokenType as string;
       session.expiresIn = token.expiresIn as string | number;
       session.refreshTokenExpiresIn = token.refreshTokenExpiresIn as string;
-      session.user = token.user as PlayerInfo;
+      session.user = token.user as LoginResponse;
       return session;
     },
   },

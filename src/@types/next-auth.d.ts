@@ -1,6 +1,7 @@
 import type { DefaultSession } from 'next-auth';
 import type { PlayerInfo, UserInfo } from '@/types/partner';
 import { Overwrite } from '@/types/utility';
+import { LoginResponse } from '@/types/auth';
 
 declare module 'next-auth' {
   /**
@@ -12,7 +13,7 @@ declare module 'next-auth' {
     tokenType?: string;
     expiresIn?: string | number;
     refreshTokenExpiresIn?: string | number;
-    user: PlayerInfo;
+    user: LoginResponse;
   }
 
   interface User extends Overwrite<DefaultSession['user'], UserInfo> {
@@ -21,7 +22,7 @@ declare module 'next-auth' {
     tokenType?: string;
     expiresIn?: string | number;
     refreshTokenExpiresIn?: string | number;
-    user: PlayerInfo;
+    user: LoginResponse;
   }
 }
 declare module 'next-auth/jwt' {
@@ -32,6 +33,6 @@ declare module 'next-auth/jwt' {
     tokenType?: string;
     expiresIn?: string | number;
     refreshTokenExpiresIn?: string | number;
-    user: PlayerInfo;
+    user: LoginResponse;
   }
 }
