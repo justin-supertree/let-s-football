@@ -4,10 +4,18 @@ export type InputValueProps = {
   type?: string;
 };
 
+export type Formation = {
+  formation: string;
+  players: number;
+};
+
 export type CreateRequestParams = {
   teamName: InputValueProps;
   sports: InputValueProps;
   trainingPlace: InputValueProps;
-  teamFormation: InputValueProps;
-  Contact: InputValueProps;
+  teamFormation: {
+    value: Formation;
+    result: boolean;
+  };
+  // contact: InputValueProps;
 };

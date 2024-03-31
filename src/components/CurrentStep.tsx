@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 
 import { IconCheck } from '@/images';
 
-import type { InputValueProps } from '@/types/create';
+import type { Formation, InputValueProps } from '@/types/create';
 
 import Button from '@/components/Button';
 
@@ -13,8 +13,11 @@ type Props = {
     teamName: InputValueProps;
     sports: InputValueProps;
     trainingPlace: InputValueProps;
-    teamFormation: InputValueProps;
-    Contact: InputValueProps;
+    teamFormation: {
+      value: Formation;
+      result: boolean;
+    };
+    // contact: InputValueProps;
   };
   handleCurrentPage: (current: number) => () => void;
   handlePrevPage: (prev: number) => () => void;

@@ -256,20 +256,26 @@ const Football: NextPageWithLayout = () => {
               <SearchTeamInput placeholder="찾고 싶은 모임이름을 검색해주세요." />
             </CategoryTitleBlock>
 
-            <TeamGraphBlock>
-              {recruitDemoData ? (
-                <div>
-                  {data?.list.map((info, index) => (
-                    <GroupTicket
-                      data={info}
-                      key={`football-${info.id}-${index}`}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <p>현재까지 팀원을 찾는 모임이 없습니다.</p>
-              )}
-            </TeamGraphBlock>
+            {isLoading && <div>로딩중..</div>}
+
+            {isError && <div>에러 발생</div>}
+
+            {!isLoading && !isError && (
+              <TeamGraphBlock>
+                {recruitDemoData ? (
+                  <div>
+                    {data?.list.map((info, index) => (
+                      <GroupTicket
+                        data={info}
+                        key={`football-${info.id}-${index}`}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <p>현재까지 팀원을 찾는 모임이 없습니다.</p>
+                )}
+              </TeamGraphBlock>
+            )}
           </CategoryBlock>
 
           <CategoryBlock>

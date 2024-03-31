@@ -194,19 +194,63 @@ const KakaoMapBlock = styled.div`
   background-color: white;
 `;
 
+const FinalCheckInfoBlock = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  max-width: 768px;
+  height: 500px;
+  padding: 1rem;
+  border: 1px solid;
+  border-radius: 24px;
+`;
+
+const GetherPlaceMap = styled.div`
+  width: 50%;
+  height: 350px;
+  border: 1px solid;
+`;
+
+const FinalInfoWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  gap: 1rem;
+  margin-top: 2rem;
+  font-size: 22px;
+  font-weight: 600;
+
+  & > div {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+  }
+`;
+
+const CheckTitle = styled.p`
+  width: 150px;
+`;
+
 const backgroundImages = [FieldOne, FieldTwo, FieldThree];
 
 const initialCreateInfo = {
   teamName: { value: '', result: false },
   sports: { value: '', result: false },
-  trainingPlace: { value: '', result: false },
-  teamFormation: { value: '', result: false },
-  Contact: { value: '', type: '', result: false },
+  trainingPlace: { value: '서울시 마포구 홍대', result: true },
+  teamFormation: {
+    value: {
+      formation: '',
+      players: 0,
+    },
+    result: false,
+  },
+  // contact: { value: '', type: '', result: false },
 };
 
 const ManagerLocker: NextPageWithLayout = () => {
   const [step, setStep] = useState(0);
-  const [players, setPlayers] = useState(11);
+  const [selectPlayers, setselectPlayers] = useState(11);
   const [selectedFormation, setSelectedFormation] = useState('433');
   const [backgroundView, setBackgroundView] = useState<ImageState>('');
   // const [recruitmentInfos, setRecruitmentInfos] = useState(initialProps);
@@ -234,21 +278,75 @@ const ManagerLocker: NextPageWithLayout = () => {
     setStep(prev);
   };
 
-  const handleNextPage = (next: number) => () => {
-    if (!inputData.teamName.value) {
-      setStep(0);
-      return;
-    }
-    setInputData({
-      ...inputData,
-      teamName: { value: inputData.teamName.value, result: true },
-    });
-    setStep(next);
+  const handleSelectChange = (event: { target: { value: string } }) => {
+    const selectedPlayers = parseInt(event.target.value, 10);
+    console.log('selectedPlayers >', selectedPlayers);
+    setselectPlayers(selectedPlayers);
+  };
+
+  const handleSelectFormationChange = (event: {
+    target: { value: string };
+  }) => {
+    const selectedFormation = event.target.value;
+    console.log('handleSelectFormationChange >', selectedFormation);
+    setSelectedFormation(selectedFormation);
   };
 
   const handleSelectFootballType = (name: string) => () => {
     console.log('handleSelectFootballType >', name);
     setInputData({ ...inputData, sports: { value: name, result: true } });
+  };
+
+  const handleNextPage = (next: number) => () => {
+    switch (step) {
+      case 0:
+        if (!inputData.teamName.value) {
+          alert('팀명을 입력해주세요');
+          return;
+        }
+        break;
+      case 1:
+        if (!inputData.sports.value) {
+          alert('원하는 축구 타입을 선택해주세요');
+          return;
+        }
+        break;
+      case 2:
+        if (!inputData.trainingPlace.value) {
+          alert('집결지를 입력해주세요');
+          return;
+        }
+        break;
+      case 3:
+        if (!selectedFormation && !selectPlayers) {
+          alert('포메이션을 선택해주세요.');
+          return;
+        }
+        break;
+      // case 4:
+      //   if (!inputData.contact.value) {
+      //     alert('연락처를 입력해주세요.');
+      //     return;
+      //   }
+      //   break;
+      default:
+        break;
+    }
+
+    setInputData({
+      teamName: { value: inputData.teamName.value, result: true },
+      sports: { value: inputData.sports.value, result: true },
+      trainingPlace: { value: inputData.trainingPlace.value, result: true },
+      teamFormation: {
+        value: {
+          formation: selectedFormation,
+          players: selectPlayers,
+        },
+        result: true,
+      },
+      // contact: { value: inputData.contact.value, type: '', result: true },
+    });
+    setStep(next);
   };
 
   useEffect(() => {
@@ -257,18 +355,6 @@ const ManagerLocker: NextPageWithLayout = () => {
       console.log('first page!');
     }
   }, [step]);
-
-  const handleSelectChange = (event: { target: { value: string } }) => {
-    const selectedPlayers = parseInt(event.target.value, 10);
-    setPlayers(selectedPlayers);
-  };
-
-  const handleSelectFormationChange = (event: {
-    target: { value: string };
-  }) => {
-    const selectedFormation = event.target.value;
-    setSelectedFormation(selectedFormation);
-  };
 
   useEffect(() => {
     if (step === 0) {
@@ -279,10 +365,6 @@ const ManagerLocker: NextPageWithLayout = () => {
       setBackgroundView(backgroundImages[2]);
     }
   }, [step]);
-
-  useEffect(() => {
-    console.log('inputData >', inputData);
-  }, [inputData]);
 
   return (
     <Container>
@@ -349,7 +431,7 @@ const ManagerLocker: NextPageWithLayout = () => {
                 <div>
                   <p>참여인원 : </p>
 
-                  <Select value={players} onChange={handleSelectChange}>
+                  <Select value={selectPlayers} onChange={handleSelectChange}>
                     {options.map((option) => (
                       <option key={option} value={option}>
                         {option}
@@ -384,7 +466,32 @@ const ManagerLocker: NextPageWithLayout = () => {
         {step === 4 && (
           <InformationBlock>
             <SubTitle>최종 확인</SubTitle>
-            <CustomInput />
+            <FinalCheckInfoBlock>
+              <FinalInfoWrapper>
+                <div>
+                  <CheckTitle>팀명 :</CheckTitle>{' '}
+                  <p>{inputData.teamName.value}</p>
+                </div>
+                <div>
+                  <CheckTitle>축구타입 :</CheckTitle>{' '}
+                  <p>{inputData.sports.value}</p>
+                </div>
+                <div>
+                  <CheckTitle>장소 :</CheckTitle>{' '}
+                  <p>{inputData.trainingPlace.value}</p>
+                </div>
+                <div>
+                  <CheckTitle>포메이션 :</CheckTitle>{' '}
+                  <p>{inputData.teamFormation.value.formation}</p>
+                </div>
+                <div>
+                  <CheckTitle>참여인원 :</CheckTitle>{' '}
+                  <p>{inputData.teamFormation.value.players}</p>
+                </div>
+              </FinalInfoWrapper>
+              <GetherPlaceMap />
+            </FinalCheckInfoBlock>
+            {/* <CustomInput /> */}
           </InformationBlock>
         )}
       </MainBlock>

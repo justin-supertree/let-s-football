@@ -212,11 +212,9 @@ const Header = () => {
             종목
           </LogoBlock>
 
-          {activity && (
-            <LogoBlock onClick={handleRouterPage('/activities/football')}>
-              팀현황
-            </LogoBlock>
-          )}
+          <LogoBlock onClick={handleRouterPage('/activities/football')}>
+            팀현황
+          </LogoBlock>
         </RoutingBlock>
 
         <ClickBlock>
