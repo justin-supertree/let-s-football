@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { Button } from '@chakra-ui/react';
 
 import type { MeetingResponse } from '@/types/meeting';
+import { getCategory } from '@/lib/util';
 
 type Props = {
   data?: MeetingResponse;
@@ -57,6 +58,7 @@ const GroupTicket = ({ data }: Props) => {
   const [isContentDetail, setIsContentDetail] = useState(false);
 
   const router = useRouter();
+  const category = getCategory();
 
   const handleContentDetailOpen = () => {
     setIsContentDetail((prevState) => !prevState);
@@ -65,7 +67,7 @@ const GroupTicket = ({ data }: Props) => {
   const handleEnterDetail =
     (id?: number) => (e: MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
-      router.push(`/activities/football/detail/${id}`);
+      router.push(`/activities/detail/${id}`);
       console.log('handleEnterDetail >', id);
     };
 

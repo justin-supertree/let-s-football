@@ -14,8 +14,9 @@ api.interceptors.request.use(async (config) => {
   const session = await getSession();
 
   if (session) {
-    config.headers['Authorization'] = `Bearer ${session.accessToken}`;
+    config.headers['Authorization'] = `Bearer ${session.user.jwt}`;
   }
+
   return config;
 });
 

@@ -134,17 +134,16 @@ const Header = () => {
 
   const { data: session } = useSession();
   const router = useRouter();
-  const activity = getCategory();
+  const category = getCategory();
   const accessToken = session?.accessToken;
   const { code } = router.query;
 
   const currentPage = useMemo(() => {
-    if (router) {
+    return (
       router.asPath.includes('/activities') ||
-        router.asPath.includes('/activity-hub');
-      return false;
-    }
-  }, [router]);
+      router.asPath.includes('/activity-hub')
+    );
+  }, [router.asPath]);
 
   const {
     isOpen: isLogoutOpen,
@@ -207,12 +206,11 @@ const Header = () => {
           <LogoBlock onClick={handleRouterPage('/')}>
             <Image src={MainLogo} alt="main-logo" />
           </LogoBlock>
-
           <LogoBlock onClick={handleRouterPage('/activity-hub')}>
             종목
           </LogoBlock>
 
-          <LogoBlock onClick={handleRouterPage('/activities/football')}>
+          <LogoBlock onClick={handleRouterPage(`/activities/${category}`)}>
             팀현황
           </LogoBlock>
         </RoutingBlock>
@@ -221,20 +219,16 @@ const Header = () => {
           {session ? (
             <HeaderLoginBlock>
               <UserInfoText>
-                <span>
-                  로그인 이메일 :{' '}
-                  {session.user.usersInfo.email
-                    ? session.user.usersInfo.email
-                    : '사용자'}
-                </span>
+                로그인 이메일 :{' '}
+                {session.user.usersInfo.email
+                  ? session.user.usersInfo.email
+                  : '사용자'}
               </UserInfoText>
 
               <WebSignButton onClick={onLogoutOpen}>LOGOUT</WebSignButton>
             </HeaderLoginBlock>
           ) : (
-            <div>
-              <LoginButton onClick={handleLoginToggle}>Login</LoginButton>
-            </div>
+            <LoginButton onClick={handleLoginToggle}>Login</LoginButton>
           )}
         </ClickBlock>
       </Container>

@@ -16,6 +16,11 @@ import Button from '@/components/Button';
 import HoverVideoPlayer from '@/components/HoverVideoPlayer';
 import CreateTeamModal from '@/components/Modal/CreateTeamModal';
 
+type SelectCategory = {
+  id: number;
+  title: string;
+};
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -222,10 +227,10 @@ const ActivityHub: NextPageWithLayout = () => {
     },
   );
 
-  const handleSelectContents = (title: string) => () => {
-    if (title) {
-      setCategory(title);
-      router.push('/activities/football');
+  const handleSelectContents = (data: SelectCategory) => () => {
+    if (data) {
+      setCategory(`${data.id}`);
+      router.push(`/activities/${data.id}`);
     }
   };
 
@@ -281,7 +286,7 @@ const ActivityHub: NextPageWithLayout = () => {
                 <ActivityInfoWrap>
                   <ContentInfoTitle>{info.title}</ContentInfoTitle>
 
-                  <SelectButton onClick={handleSelectContents(info.title)}>
+                  <SelectButton onClick={handleSelectContents(info)}>
                     선택
                   </SelectButton>
                 </ActivityInfoWrap>

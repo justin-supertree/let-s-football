@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import type { NextPageWithLayout } from '@/types/next-page';
+import times from 'lodash/times';
 import styled from '@emotion/styled';
 import { Button, Input } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
+
+import type { NextPageWithLayout } from '@/types/next-page';
 
 import { getMeetingInformation } from '@/api/meeting';
 
@@ -215,8 +217,6 @@ const TopAreaBlock = styled.div`
 `;
 
 const Football: NextPageWithLayout = () => {
-  const [bannerData, setBannerData] = useState([1, 2, 3, 4, 5]);
-
   const { isLoading, isError, data, refetch } = useQuery(
     ['getServiceList'],
     async () => {
@@ -238,9 +238,9 @@ const Football: NextPageWithLayout = () => {
             <BannerContainer>
               <BannerBlock>
                 <CardSlider slidesToShow={1}>
-                  {bannerData.map((info, index) => (
+                  {times(6, (index) => (
                     <BannerContents key={index}>
-                      <div>{info} banner</div>
+                      <div>{index + 1} banner</div>
                     </BannerContents>
                   ))}
                 </CardSlider>

@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 
 import Button from '@/components/Button';
 import Modal from '@/components/Modal/InfoModal';
+import { getCategory } from '@/lib/util';
 
 type Props = {
   title: string;
@@ -121,10 +122,11 @@ const GroupDetailModal = ({
   handleOpenModal,
 }: Props) => {
   const router = useRouter();
+  const category = getCategory();
 
   const handleRouteDetail = () => {
     handleOpenModal();
-    router.push(`/activities/football/detail/${data?.id}`);
+    router.push(`/activities/${category}/detail/${data?.id}`);
   };
 
   return (

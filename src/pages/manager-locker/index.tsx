@@ -2,6 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Input, Select, keyframes } from '@chakra-ui/react';
 import Image, { StaticImageData } from 'next/image';
+import { useRouter } from 'next/router';
 
 import { NextPageWithLayout } from '@/types/next-page';
 
@@ -16,6 +17,8 @@ import FieldOne from '@/images/field-1.jpg';
 import FieldTwo from '@/images/field-2.jpg';
 import FieldThree from '@/images/field-3.jpg';
 import { css } from '@emotion/react';
+import { postCreateNewTeam } from '@/api/meeting';
+import { getCategory } from '@/lib/util';
 
 type ImageState = StaticImageData | string;
 
@@ -236,7 +239,7 @@ const backgroundImages = [FieldOne, FieldTwo, FieldThree];
 
 const initialCreateInfo = {
   teamName: { value: '', result: false },
-  sports: { value: '', result: false },
+  sports: { value: 'full' || 'half' || 'foot' || 'education', result: false },
   trainingPlace: { value: '서울시 마포구 홍대', result: true },
   teamFormation: {
     value: {
@@ -250,13 +253,17 @@ const initialCreateInfo = {
 
 const ManagerLocker: NextPageWithLayout = () => {
   const [step, setStep] = useState(0);
-  const [selectPlayers, setselectPlayers] = useState(11);
+  const [selectPlayers, setSelectPlayers] = useState(11);
   const [selectedFormation, setSelectedFormation] = useState('433');
   const [backgroundView, setBackgroundView] = useState<ImageState>('');
   // const [recruitmentInfos, setRecruitmentInfos] = useState(initialProps);
   const [inputData, setInputData] = useState(initialCreateInfo);
   // const [createData, setCreateData] = useState(initialCreateInfo);
   const options = [11, 10, 9, 8, 7, 6, 5, 4];
+
+  const router = useRouter();
+
+  const category = getCategory();
 
   const createPlayerInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -281,7 +288,7 @@ const ManagerLocker: NextPageWithLayout = () => {
   const handleSelectChange = (event: { target: { value: string } }) => {
     const selectedPlayers = parseInt(event.target.value, 10);
     console.log('selectedPlayers >', selectedPlayers);
-    setselectPlayers(selectedPlayers);
+    setSelectPlayers(selectedPlayers);
   };
 
   const handleSelectFormationChange = (event: {
@@ -292,9 +299,9 @@ const ManagerLocker: NextPageWithLayout = () => {
     setSelectedFormation(selectedFormation);
   };
 
-  const handleSelectFootballType = (name: string) => () => {
-    console.log('handleSelectFootballType >', name);
-    setInputData({ ...inputData, sports: { value: name, result: true } });
+  const handleSelectFootballType = (type: string) => () => {
+    console.log('handleSelectFootballType >', type);
+    setInputData({ ...inputData, sports: { value: type, result: true } });
   };
 
   const handleNextPage = (next: number) => () => {
@@ -347,6 +354,26 @@ const ManagerLocker: NextPageWithLayout = () => {
       // contact: { value: inputData.contact.value, type: '', result: true },
     });
     setStep(next);
+  };
+
+  const handleCreateNewTeam = async () => {
+    try {
+      await postCreateNewTeam({
+        categoryId: 2,
+        title: inputData.teamName.value,
+        place: '서울 서대문구 연희동 27',
+        placeUrl: 'https://map.naver.com/',
+        x: '37.123456',
+        y: '127.123456',
+        participantsMax: inputData.teamFormation.value.players,
+        type: 'foot',
+        formation: '442',
+      });
+      alert('모임이 생성되었습니다.');
+      router.push(`/activities/${category}`);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -417,7 +444,7 @@ const ManagerLocker: NextPageWithLayout = () => {
             <SubTitle>집결 장소</SubTitle>
 
             <RecruitmentBlock>
-              <KakaoMapBlock>a</KakaoMapBlock>
+              <KakaoMapBlock></KakaoMapBlock>
             </RecruitmentBlock>
           </InformationBlock>
         )}
@@ -502,6 +529,7 @@ const ManagerLocker: NextPageWithLayout = () => {
         handleCurrentPage={handleCurrentPage}
         handlePrevPage={handlePrevPage}
         handleNextPage={handleNextPage}
+        handleCreateNewTeam={handleCreateNewTeam}
       />
     </Container>
   );

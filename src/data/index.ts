@@ -81,8 +81,8 @@ const formationData = {
 const footballTypeData = [
   { type: 'full', name: '풀 코트 축구' },
   { type: 'half', name: '하프 코트 축구' },
-  { type: 'futsal', name: '풋살' },
-  { type: 'educate', name: '축구강습' },
+  { type: 'foot', name: '풋살' },
+  { type: 'education', name: '축구강습' },
 ];
 
 const formationOptions = [

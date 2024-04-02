@@ -22,6 +22,7 @@ type Props = {
   handleCurrentPage: (current: number) => () => void;
   handlePrevPage: (prev: number) => () => void;
   handleNextPage: (next: number) => () => void;
+  handleCreateNewTeam: () => void;
 };
 
 const CreateProgressBlock = styled.div`
@@ -50,6 +51,14 @@ const RightButton = styled(Button)`
   border: 1px solid white;
 `;
 
+const CreateTeamButton = styled(Button)`
+  width: 250px;
+  height: 50px;
+  padding: 1rem;
+  background-color: blue;
+  color: white;
+`;
+
 const StepButtonBlock = styled.div<{ isCurrent: boolean }>`
   width: fit-content;
   border-radius: 50%;
@@ -74,6 +83,7 @@ const CurrentStep = ({
   handleCurrentPage,
   handlePrevPage,
   handleNextPage,
+  handleCreateNewTeam,
 }: Props) => (
   <>
     <CreateProgressBlock>
@@ -151,6 +161,12 @@ const CurrentStep = ({
       )}
       {step < 4 && (
         <RightButton onClick={handleNextPage(step + 1)}>Next</RightButton>
+      )}
+
+      {step > 3 && (
+        <CreateTeamButton onClick={handleCreateNewTeam}>
+          팀 생성하기
+        </CreateTeamButton>
       )}
     </PaginationBlock>
   </>

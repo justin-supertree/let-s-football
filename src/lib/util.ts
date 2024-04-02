@@ -9,8 +9,8 @@ export const getCategory = () => {
   return '';
 };
 
-export const setCategory = (title: string) =>
-  localStorage.setItem(SELECT_CATEGORY, title);
+export const setCategory = (id: string) =>
+  localStorage.setItem(SELECT_CATEGORY, id);
 
 export const clearCategory = () => localStorage.removeItem(SELECT_CATEGORY);
 
