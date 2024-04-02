@@ -44,7 +44,6 @@ export const kakaoUserLogin = async ({
   redirect,
 }: RequestSnsLogin): Promise<snsLoginData | void> => {
   try {
-    console.log('kakaoUserLogin code >', code);
     const response = await api.get<ResponseData<snsLoginData>>(
       `/v1/auth/kakao?code=${code}&redirect=${process.env.NEXT_PUBLIC_URL}`,
     );
@@ -58,8 +57,7 @@ export const kakaoUserLogin = async ({
     return data.data;
   } catch (error) {
     if (error instanceof AxiosError) {
-      console.log('error >', error);
-      // throw new ResponseError(error.response?.data.message, '10');
+      throw new ResponseError(error.response?.data.message, '10');
     }
     if (error instanceof ResponseError) {
       throw error;

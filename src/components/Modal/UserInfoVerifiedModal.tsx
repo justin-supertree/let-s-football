@@ -164,7 +164,6 @@ const UserInfoVerifiedModal = ({
   ) => {
     const { name, value } = e.target as HTMLInputElement | HTMLSelectElement;
     setMembershipInfo({ ...memberShipInfo, [name]: value });
-    console.log(e);
   };
 
   // const inputList = [
@@ -197,14 +196,6 @@ const UserInfoVerifiedModal = ({
   //     placeholder: '이메일을 입력해주세요',
   //   },
   // ];
-
-  // useEffect(() => {
-  //   console.log('step >', step);
-  // }, [step]);
-
-  // useEffect(() => {
-  //   console.log('memberShipInfo >', memberShipInfo);
-  // }, [memberShipInfo]);
 
   useEffect(() => {
     handleTimerStart();

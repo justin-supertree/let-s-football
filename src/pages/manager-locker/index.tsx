@@ -22,6 +22,8 @@ import { getCategory } from '@/lib/util';
 
 type ImageState = StaticImageData | string;
 
+const options = [11, 10, 9, 8, 7, 6, 5, 4];
+
 const Container = styled.div`
   position: relative;
   height: 100%;
@@ -248,7 +250,6 @@ const initialCreateInfo = {
     },
     result: false,
   },
-  // contact: { value: '', type: '', result: false },
 };
 
 const ManagerLocker: NextPageWithLayout = () => {
@@ -256,10 +257,7 @@ const ManagerLocker: NextPageWithLayout = () => {
   const [selectPlayers, setSelectPlayers] = useState(11);
   const [selectedFormation, setSelectedFormation] = useState('433');
   const [backgroundView, setBackgroundView] = useState<ImageState>('');
-  // const [recruitmentInfos, setRecruitmentInfos] = useState(initialProps);
   const [inputData, setInputData] = useState(initialCreateInfo);
-  // const [createData, setCreateData] = useState(initialCreateInfo);
-  const options = [11, 10, 9, 8, 7, 6, 5, 4];
 
   const router = useRouter();
 
@@ -278,7 +276,6 @@ const ManagerLocker: NextPageWithLayout = () => {
 
   const handleCurrentPage = (current: number) => () => {
     setStep(current);
-    console.log('handleCurrentPage >', current);
   };
 
   const handlePrevPage = (prev: number) => () => {
@@ -287,7 +284,6 @@ const ManagerLocker: NextPageWithLayout = () => {
 
   const handleSelectChange = (event: { target: { value: string } }) => {
     const selectedPlayers = parseInt(event.target.value, 10);
-    console.log('selectedPlayers >', selectedPlayers);
     setSelectPlayers(selectedPlayers);
   };
 
@@ -295,12 +291,10 @@ const ManagerLocker: NextPageWithLayout = () => {
     target: { value: string };
   }) => {
     const selectedFormation = event.target.value;
-    console.log('handleSelectFormationChange >', selectedFormation);
     setSelectedFormation(selectedFormation);
   };
 
   const handleSelectFootballType = (type: string) => () => {
-    console.log('handleSelectFootballType >', type);
     setInputData({ ...inputData, sports: { value: type, result: true } });
   };
 
@@ -379,7 +373,6 @@ const ManagerLocker: NextPageWithLayout = () => {
   useEffect(() => {
     if (step < 1) {
       setStep(0);
-      console.log('first page!');
     }
   }, [step]);
 

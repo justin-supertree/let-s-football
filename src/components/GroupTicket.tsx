@@ -68,7 +68,6 @@ const GroupTicket = ({ data }: Props) => {
     (id?: number) => (e: MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
       router.push(`/activities/detail/${id}`);
-      console.log('handleEnterDetail >', id);
     };
 
   return (
