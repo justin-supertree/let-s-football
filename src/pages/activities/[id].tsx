@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import Link from 'next/link';
 import times from 'lodash/times';
 import styled from '@emotion/styled';

@@ -371,7 +371,6 @@ const SiteLanding = () => {
             title="로그아웃 성공"
             desc="다음에 또 봐요~"
             buttonType="single"
-            isOpen={isConfirmLogout}
             onClose={handleLogoutButton}
           />
         )}

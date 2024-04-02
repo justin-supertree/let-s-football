@@ -7,7 +7,6 @@ type Props = {
   title: string;
   desc: string;
   buttonType?: 'single' | 'double';
-  isOpen: boolean;
   handleLogout?: () => void;
   onClose: () => void;
 };
@@ -95,7 +94,6 @@ const BaseModal = ({
   title,
   desc,
   buttonType,
-  isOpen,
   handleLogout,
   onClose,
 }: Props) => {

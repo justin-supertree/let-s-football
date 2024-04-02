@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import Link from 'next/link';
 import styled from '@emotion/styled';
 import { Button, useDisclosure } from '@chakra-ui/react';
 import { AnimatePresence } from 'framer-motion';
@@ -110,23 +109,6 @@ const WebSignButton = styled(Button)`
   color: var(--primary-white, var(--Color-White, #fff));
 `;
 
-const LoginBlock = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background-color: #444444;
-  border-radius: 4px;
-  cursor: pointer;
-
-  @media screen and (min-width: 1024px) {
-    display: none;
-  }
-`;
-
-const LoginButton = styled(Button)``;
-
 const Header = () => {
   const [isError, setIsError] = useState(false);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
@@ -137,13 +119,6 @@ const Header = () => {
   const category = getCategory();
   const accessToken = session?.accessToken;
   const { code } = router.query;
-
-  const currentPage = useMemo(() => {
-    return (
-      router.asPath.includes('/activities') ||
-      router.asPath.includes('/activity-hub')
-    );
-  }, [router.asPath]);
 
   const {
     isOpen: isLogoutOpen,
@@ -228,7 +203,7 @@ const Header = () => {
               <WebSignButton onClick={onLogoutOpen}>LOGOUT</WebSignButton>
             </HeaderLoginBlock>
           ) : (
-            <LoginButton onClick={handleLoginToggle}>Login</LoginButton>
+            <Button onClick={handleLoginToggle}>Login</Button>
           )}
         </ClickBlock>
       </Container>
@@ -246,7 +221,6 @@ const Header = () => {
             title="로그아웃 성공"
             desc="다음에 또 봐요~"
             buttonType="single"
-            isOpen={isLogoutOpen}
             onClose={handleLogoutButton}
           />
         )}
